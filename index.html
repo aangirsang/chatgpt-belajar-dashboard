@@ -37,6 +37,44 @@
                     <span class="material-symbols-sharp">grid_view</span>
                     <h3>Dashboard</h3>
                 </a>
+
+                <a onclick="toggleSubmenu('produk-submenu', 'produk-arrow')" class="menu-item">
+                    <span class="material-symbols-sharp">inventory</span>
+                    <h3>Master</h3>
+                    <span id="produk-arrow" class="material-symbols-sharp">expand_more</span>
+                </a>
+
+                <div class="submenu" id="produk-submenu">
+                    <a onclick="loadPage('pengguna')">
+                        <h4>Pengguna</h4>
+                    </a>
+                    <a onclick="loadPage('kategori')">
+                        <h4>Kategori</h4>
+                    </a>
+                    <a onclick="loadPage('level')">
+                        <h4>Level</h4>
+                    </a>
+                    <a onclick="loadPage('pembelian')">
+                        <h4>Pembelian</h4>
+                    </a>
+                </div>
+
+                <a onclick="toggleSubmenu('umkm-submenu', 'umkm-arrow')" class="menu-item">
+                    <span class="material-symbols-sharp">inventory</span>
+                    <h3>UMKM</h3>
+                    <span id="umkm-arrow" class="material-symbols-sharp">expand_more</span>
+
+                </a>
+
+                <div class="submenu" id="umkm-submenu">
+                    <a onclick="loadPage('umkm')">
+                        <h4>UMKM</h4>
+                    </a>
+                    <a onclick="loadPage('stiker')">
+                        <h4>Stiker</h4>
+                    </a>
+                </div>
+
                 <a onclick="loadPage('produk')">
                     <span class="material-symbols-sharp">inventory</span>
                     <h3>Produk</h3>
@@ -49,7 +87,7 @@
                     <span class="material-symbols-sharp">inventory</span>
                     <h3>Laporan</h3>
                 </a>
-                <a>
+                <a class="last">
                     <span class="material-symbols-sharp">logout</span>
                     <h3>Logout</h3>
                 </a>

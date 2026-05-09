@@ -43,6 +43,21 @@ async function loadPage(page) {
 /* LOAD HALAMAN PERTAMA */
 loadPage('dashboard');
 
+// SUBMENU
+function toggleSubmenu(submenuId, arrowId){
+
+    const submenu =
+        document.getElementById(submenuId);
+
+    const arrow =
+        document.getElementById(arrowId);
+
+    submenu.classList.toggle('active');
+
+    arrow.classList.toggle('rotate');
+}
+
+
 //GANTI TEMA
 const themeToggler = document.querySelector(".theme-toggler");
 
