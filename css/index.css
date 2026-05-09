@@ -61,6 +61,11 @@ small {
     font-size: 0.75rem;
 }
 
+input, button{
+    font-family: var(--jenis-font), serif;
+    color: var(--color-dark);
+}
+
 .profile-photo {
     width: 2.8rem;
     height: 2.8rem;

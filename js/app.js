@@ -26,6 +26,10 @@ async function loadPage(page) {
             loadCharts();
             loadTableOrder();
         }
+        if(page === 'pengguna'){
+            loadTablePengguna();
+            initPopupPengguna();
+        }
 
     } catch (error) {
 

@@ -1,3 +1,102 @@
 <div class="pengguna">
+    <!-- SEARCH -->
+    <div class="search-bar">
+        <div class="search-box">
+            <span class="material-symbols-sharp">search</span>
+            <label>
+                <input type="text" placeholder="Cari">
+            </label>
+        </div>
+        <button  class="add-btn">
+            <span class="material-symbols-sharp">add</span>
+            Tambah Pengguna
+        </button>
+    </div>
 
+    <!-- TABLE -->
+    <div class="table-container">
+        <table class="pengguna-tbl">
+            <thead>
+            <tr>
+                <th>Nama Lengkap</th>
+                <th>Nama  Akun</th>
+                <th>Level</th>
+                <th>Status</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody id="pengguna-tbl-body"></tbody>
+        </table>
+    </div>
+
+    <!--POPUP HAPUS-->
+    <div id="popup-hapus" class="popup">
+        <div class="popup-content">
+            <h2>Konfirmasi</h2>
+            <p>Yakin ingin menghapus pengguna?</p>
+            <div class="popup-actions">
+                <button id="batal-btn">Batal</button>
+                <button id="konfirmasi-hapus-btn">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!--POPUP EDIT-->
+    <div id="popup-edit" class="popup">
+        <div class="popup-content">
+            <h2>Edit Pengguna</h2>
+
+            <form id="form-edit-pengguna">
+
+                <div class="form-group">
+                    <label>Nama</label>
+                    <input type="text" id="edit-nama">
+                </div>
+
+                <div class="form-group">
+                    <label>Akun</label>
+                    <input type="text" id="edit-akun">
+                </div>
+
+                <div class="form-group">
+                    <label>Level</label>
+
+                    <select id="edit-level">
+                        <option value="Administrator">
+                            Administrator
+                        </option>
+
+                        <option value="User">
+                            User
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="edit-status">
+                        <option value="aktif">
+                            Aktif
+                        </option>
+
+                        <option value="nonaktif">
+                            Nonaktif
+                        </option>
+                    </select>
+                </div>
+
+                <div class="popup-actions">
+                    <button type="button" id="batal-edit-btn">
+                        Batal
+                    </button>
+
+                    <button type="submit" id="simpan-edit-btn">
+                        Simpan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
