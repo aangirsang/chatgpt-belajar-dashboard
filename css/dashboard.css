@@ -1,0 +1,66 @@
+.beranda {
+    display: grid;
+    grid-template-columns: 6.5fr 3.5fr;
+    gap: 1.6rem;
+}
+
+.beranda .umkm-order-bulanan {
+    border-radius: var(--border-radius-1);
+    height: 47vh;
+}
+
+.beranda .data-order-bulanan {
+    margin-top: 1.6rem;
+    border-radius: var(--border-radius-1);
+    height: 38vh;
+}
+
+.beranda .kanan > div {
+    background: var(--color-white) ;
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+.beranda .kanan > div:hover {
+    box-shadow: none;
+}
+
+.beranda .kiri h3 {
+    margin-bottom: 0.8rem;
+}
+
+.beranda .kiri {
+    background: var(--color-white) ;
+    padding: var(--card-padding);
+    padding-bottom: 1rem;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+
+.beranda table {
+    width: 100%;
+    text-align: center;
+}
+
+.beranda .kiri:hover {
+    box-shadow: none;
+}
+
+.beranda table tbody td {
+    height: 2.8rem;
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-dark-variant);
+}
+
+.beranda table tbody tr:last-child td {
+    /*border: none;*/
+}
+
+.beranda .kiri a {
+    margin-top: 1rem;
+    text-align: center;
+    display: block;
+    color: var(--color-primary);
+}
