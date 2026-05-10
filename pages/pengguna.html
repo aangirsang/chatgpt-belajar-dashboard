@@ -7,7 +7,7 @@
                 <input type="text" placeholder="Cari">
             </label>
         </div>
-        <button  class="add-btn">
+        <button class="add-btn" id="add-btn">
             <span class="material-symbols-sharp">add</span>
             Tambah Pengguna
         </button>
@@ -31,7 +31,7 @@
 
     <!--POPUP HAPUS-->
     <div id="popup-hapus" class="popup">
-        <div class="popup-content">
+        <div class="popup-content-hapus">
             <h2>Konfirmasi</h2>
             <p>Yakin ingin menghapus pengguna?</p>
             <div class="popup-actions">
@@ -43,57 +43,117 @@
 
     <!--POPUP EDIT-->
     <div id="popup-edit" class="popup">
-        <div class="popup-content">
+        <div class="popup-content-edit">
             <h2>Edit Pengguna</h2>
 
             <form id="form-edit-pengguna">
+                <div class="form-grid">
+                    <div class="form-left">
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <label for="edit-nama">
 
-                <div class="form-group">
-                    <label>Nama</label>
-                    <input type="text" id="edit-nama">
-                </div>
+                            </label>
+                            <input type="text" id="edit-nama">
+                        </div>
 
-                <div class="form-group">
-                    <label>Akun</label>
-                    <input type="text" id="edit-akun">
-                </div>
+                        <div class="form-group">
+                            <label>Akun</label>
+                            <input type="text" id="edit-akun">
+                        </div>
 
-                <div class="form-group">
-                    <label>Level</label>
+                        <div class="form-group">
+                            <label>Level</label>
+                            <div class="custom-select" id="customSelect">
+                                <div class="select-box" id="selectBox">
+                                    <span
+                                            id="selectedText"
+                                            placeholder="Pilih level">
 
-                    <select id="edit-level">
-                        <option value="Administrator">
-                            Administrator
-                        </option>
+                                    </span>
+                                    <span class="arrow" id="arrow">▼</span>
+                                </div>
 
-                        <option value="User">
-                            User
-                        </option>
-                    </select>
-                </div>
+                                <div class="options" id="optionsList"></div>
 
-                <div class="form-group">
-                    <label>Status</label>
+                                <input type="hidden" id="selectedValue">
+                            </div>
+                        </div>
 
-                    <select id="edit-status">
-                        <option value="aktif">
-                            Aktif
-                        </option>
+                        <div class="form-group">
 
-                        <option value="nonaktif">
-                            Nonaktif
-                        </option>
-                    </select>
+                            <label>Status</label>
+
+                            <select id="edit-status">
+                                <option value="aktif">
+                                    Aktif
+                                </option>
+
+                                <option value="nonaktif">
+                                    Nonaktif
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kata Sandi</label>
+                            <div class="password-box">
+                                <input
+                                        type="password"
+                                        id="kata-sandi"
+                                        placeholder="Masukkan kata sandi"
+                                >
+
+                                <button
+                                        type="button"
+                                        class="toggle-password"
+                                        onclick="togglePassword('kata-sandi',this)"
+                                >
+                                    <span class="material-symbols-sharp">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ulangi Kata Sandi</label>
+                            <div class="password-box">
+                                <input
+                                        type="password"
+                                        id="ulangi-kata-sandi"
+                                        placeholder="Masukkan kata sandi"
+                                >
+
+                                <button
+                                        type="button"
+                                        class="toggle-password"
+                                        onclick="togglePassword('ulangi-kata-sandi',this)"
+                                >
+                                    <span class="material-symbols-sharp">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-right">
+                        <!-- Preview -->
+                        <div class="image-box">
+                            <img id="previewImage" alt="Foto Pengguna">
+                        </div>
+
+                        <!-- Tombol Cari -->
+                        <button type="button" onclick="openExplorer()">Cari Gambar</button>
+
+                        <!-- Input File -->
+                        <div class="input-file">
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="popup-actions">
-                    <button type="button" id="batal-edit-btn">
-                        Batal
-                    </button>
-
-                    <button type="submit" id="simpan-edit-btn">
-                        Simpan
-                    </button>
+                    <button type="submit" id="simpan-edit-btn">Simpan</button>
+                    <button type="button" id="batal-edit-btn">Batal</button>
                 </div>
 
             </form>
