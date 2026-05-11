@@ -20,7 +20,6 @@ let dataPengguna = [
 
 let isEditMode = false;
 let selectedIndex
-const fileInput = document.getElementById("fileInput");
 
 // mengisi table
 function loadTablePengguna() {
@@ -56,7 +55,7 @@ function loadTablePengguna() {
     });
 }
 
-function showPopupHapus(index){
+function showPopupHapus(index) {
     selectedIndex = index;
     document
         .getElementById('popup-hapus')
@@ -64,9 +63,9 @@ function showPopupHapus(index){
 }
 
 // tampil edit
-function showPopupEdit(index){
+function showPopupEdit(index) {
     isEditMode = true;
-        selectedIndex = index;
+    selectedIndex = index;
 
     const pengguna = dataPengguna[index];
 
@@ -84,7 +83,7 @@ function showPopupEdit(index){
     resetPasswordVisibility()
 }
 
-function bersih(){
+function bersih() {
     document.getElementById('edit-nama').value = '';
     document.getElementById('edit-akun').value = '';
     document.getElementById('previewImage').src = '';
@@ -102,148 +101,175 @@ function bersih(){
 
     selectedText.textContent = 'Pilih Level Akun';
     selectedText.classList.add('empty');
+
+    resetPasswordVisibility();
 }
 
-function initPopupPengguna(){
-    const optionsList = document.getElementById("optionsList");
-    const customSelect = document.getElementById("customSelect");
+function initPopupPengguna() {
     const selectBox = document.getElementById("selectBox");
 
-    const batalEditBtn = document.getElementById('batal-edit-btn')
-    const batalBtn = document.getElementById('batal-btn');
-    const konfirmasiBtn = document.getElementById('konfirmasi-hapus-btn');
+    const popupPengguna = document.getElementById('form-edit-pengguna');
+
+    // Tombol-tombol
+    const batalHapusBtn = document.getElementById('batal-btn');
+    const konfirmasiHapusBtn = document.getElementById('konfirmasi-hapus-btn');
     const tambahBtn = document.getElementById('add-btn');
+    const batalEditBtn = document.getElementById('batal-edit-btn')
 
-    renderOptions();
 
-    // Tombol Batal
-    if(batalBtn){
-        batalBtn.addEventListener('click', () => {
-            document
-                .getElementById('popup-hapus')
-                .classList.remove('active');
-        });
+    renderOptions(); // isi custom select
+    initImageUpload(); // INPUT GAMBAR
+
+    popupPengguna.addEventListener('submit', simpanPengguna); // Tombol Simpan
+    batalEditBtn?.addEventListener('click', closePopupEdit); //Tombol Batal EDIT
+    batalHapusBtn?.addEventListener('click', closePopupHapus); // Tombol Batal Hapus
+    konfirmasiHapusBtn?.addEventListener('click', hapusPengguna); //Tombol Konfirmasi Hapus
+    tambahBtn?.addEventListener('click', showPopupTambah); // tambah data pengguna
+
+    // custom select
+    selectBox.addEventListener("click", toggleCustomSelect); // toggle dropdown
+    document.addEventListener("click", closeCustomSelectOutside); // klik luar custom select
+
+}
+
+// Simpan Pengguna
+function simpanPengguna(e) {
+    e.preventDefault();
+    const penggunaBaru = {
+        nama: document.getElementById('edit-nama').value,
+        akun: document.getElementById('edit-akun').value,
+        //level: document.getElementById('selectedValue').value, // menyimpan value dari custom select
+        level: document.getElementById('selectedText').textContent, // minyimpan text dari custom select
+        status: document.querySelector(
+            'input[name="status"]:checked'
+        ).value === 'true',
+        kataSandi: document.getElementById('kata-sandi').value,
+    };
+
+    if (isEditMode) {
+        // EDIT data
+        dataPengguna[selectedIndex] = penggunaBaru;
+
+    } else {
+
+        // TAMBAH data
+        dataPengguna.push(penggunaBaru);
     }
 
-    //Tombol Konfirmasi Hapus
-    if(konfirmasiBtn){
-        konfirmasiBtn.addEventListener('click', () => {
-            dataPengguna.splice(selectedIndex, 1);
+    loadTablePengguna();
 
-            loadTablePengguna();
-
-            document
-                .getElementById('popup-hapus')
-                .classList.remove('active');
-        });
-    }
-
-    //Tombol Batal EDIT
-    if(batalEditBtn) {
-        batalEditBtn.addEventListener('click', () => {
-            document.getElementById('popup-edit').classList.remove('active');
-        })
-    }
-
-    // Tombol Simpan
     document
-        .getElementById('form-edit-pengguna')
-        .addEventListener('submit', function(e){
+        .getElementById('popup-edit')
+        .classList.remove('active');
+}
 
-            e.preventDefault();
-            const penggunaBaru = {
-                nama: document.getElementById('edit-nama').value,
-                akun: document.getElementById('edit-akun').value,
-                //level: document.getElementById('selectedValue').value, // menyimpan value dari custom select
-                level: document.getElementById('selectedText').textContent, // minyimpan text dari custom select
-                status: document.querySelector(
-                    'input[name="status"]:checked'
-                ).value === 'true',
-                kataSandi: document.getElementById('kata-sandi').value,
-            };
+// Buka explorer
+function openExplorer() {
+    fileInput.click();
+}
 
-            if(isEditMode){
-                // EDIT data
-                dataPengguna[selectedIndex] = penggunaBaru;
+// tombol tampil/sembunyikan password
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const icon = button.querySelector("span");
 
-            } else {
-
-                // TAMBAH data
-                dataPengguna.push(penggunaBaru);
-            }
-
-            loadTablePengguna();
-
-            document
-                .getElementById('popup-edit')
-                .classList.remove('active');
-        });
-
-    // tambah data pengguna
-    if(tambahBtn){
-
-        tambahBtn.addEventListener('click', () => {
-
-            isEditMode = false;
-
-            // kosongkan form
-            bersih();
-
-
-            resetPasswordVisibility()
-
-            // tampilkan popup
-            document
-                .getElementById('popup-edit')
-                .classList.add('active');
-        });
+    if (input.type === "password") {
+        input.type = "text";
+        icon.textContent = "visibility_off";
+    } else {
+        input.type = "password";
+        icon.textContent = "visibility";
     }
+}
 
-    // INPUT GAMBAR
+// reset tombol tampil/sembunyikan password
+function resetPasswordVisibility() {
+    const passwordInputs = document.querySelectorAll(
+        '#kata-sandi, #ulangi-kata-sandi'
+    );
+
+    passwordInputs.forEach(input => {
+        input.type = 'password';
+        const button = input.parentElement.querySelector('.toggle-password');
+
+        if (button) {
+            const icon = button.querySelector('span');
+            if (icon) {
+                icon.textContent = 'visibility';
+            }
+        }
+    });
+}
+
+// tampil popup tambah pengguna
+function showPopupTambah() {
+
+    isEditMode = false;
+
+    bersih(); // kosongkan form
+
+    document.getElementById('popup-edit').classList.add('active'); // tampilkan popup
+}
+
+// tutup popup pengguna
+function closePopupEdit() {
+
+    document.getElementById('popup-edit').classList.remove('active');
+
+    bersih(); // optional reset form kalau perlu
+}
+
+// upload gambar
+function initImageUpload() {
+
     const fileInput = document.getElementById("fileInput");
     const previewImage = document.getElementById("previewImage");
 
-    // simpan ke global agar bisa dipakai onclick HTML
-    window.openExplorer = function(){
+    if (!fileInput || !previewImage) return;
+
+    // fallback kalau gambar error
+    previewImage.addEventListener("error", () => {
+        previewImage.src = "./images/no-image.png";
+    });
+
+    // buka file explorer
+    window.openExplorer = function () {
         fileInput.click();
-    }
+    };
 
-    // tampilkan gambar
-    if(fileInput){
-        fileInput.addEventListener("change", function(){
-            const file = this.files[0];
-            if(file){
-                let imageURL;
-                imageURL = URL.createObjectURL(file);
-                previewImage.src = imageURL;
-                previewImage.style.display = "block";
-            }
-        });
-    }
+    // preview gambar
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
 
-    // toggle dropdown
-    selectBox.addEventListener("click", () => {
-        const isOpen = optionsList.style.display === "block";
+        if (!file) return;
 
-        if (isOpen) {
-            optionsList.style.display = "none";
-            customSelect.classList.remove("active");
-        } else {
-            optionsList.style.display = "block";
-            customSelect.classList.add("active");
-        }
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
     });
+}
 
 
+// hapus pengguna
+function hapusPengguna() {
 
-// klik luar custom select
-    document.addEventListener("click", (e) => {
-        if (!customSelect.contains(e.target)) {
-            optionsList.style.display = "none";
-            customSelect.classList.remove("active");
-        }
-    });
+    if (selectedIndex === null) return;
 
+    dataPengguna.splice(selectedIndex, 1);
+
+    loadTablePengguna();
+
+    document
+        .getElementById('popup-hapus')
+        .classList.remove('active');
+}
+
+// tutup popup hapus
+function closePopupHapus() {
+    selectedIndex = null; // reset state biar aman
+
+    document
+        .getElementById('popup-hapus')
+        .classList.remove('active');
 }
 
 // isi costum select dari JS
@@ -272,42 +298,22 @@ function renderOptions() {
     });
 }
 
-// Buka explorer
-function openExplorer(){
-    fileInput.click();
+// custom select dropdown
+function toggleCustomSelect() {
+
+    const isOpen = optionsList.style.display === "block";
+
+    optionsList.style.display = isOpen ? "none" : "block";
+    customSelect.classList.toggle("active", !isOpen);
 }
 
-// tombol tampil/sembunyikan password
-function togglePassword(inputId, button){
-    const input = document.getElementById(inputId);
-    const icon = button.querySelector("span");
+// klik diluar custom select
+function closeCustomSelectOutside(e) {
 
-    if(input.type === "password"){
-        input.type = "text";
-        icon.textContent = "visibility_off";
-    }else{
-        input.type = "password";
-        icon.textContent = "visibility";
+    const isClickInside = customSelect.contains(e.target);
+
+    if (!isClickInside) {
+        optionsList.style.display = "none";
+        customSelect.classList.remove("active");
     }
 }
-
-// reset tombol tampil/sembunyikan password
-function resetPasswordVisibility(){
-    const passwordInputs = document.querySelectorAll(
-        '#kata-sandi, #ulangi-kata-sandi'
-    );
-
-    passwordInputs.forEach(input => {
-        input.type = 'password';
-        const button = input.parentElement.querySelector('.toggle-password');
-
-        if(button){
-            const icon = button.querySelector('span');
-            if(icon){
-                icon.textContent = 'visibility';
-            }
-        }
-    });
-}
-
-
