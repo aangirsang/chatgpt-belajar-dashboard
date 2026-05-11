@@ -93,6 +93,8 @@
 }
 
 .actions button{
+    background: var(--color-background);
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,8 +108,13 @@
 }
 
 .actions button span{
-    color: #677483FF;
+    color: var(--color-dark-variant);
+
     font-size: 1.1rem;
+}
+
+.actions button span:hover {
+    color: var(--color-primary);
 }
 
 /*POPUP*/
@@ -182,12 +189,12 @@
     margin-bottom: 1px;
 }
 
-.form-group input,
+.form-group input:not([type="radio"]),
 .form-group select {
     padding: 12px;
 
     border: 1px solid #dcdcdc;
-    border-radius: 8px;
+    border-radius:  var(--border-radius-2);
 
     outline: none;
     background: var(--color-white);
@@ -199,7 +206,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
 
-    cursor: pointer;
+    cursor: text;
 }
 
 .popup-actions{
@@ -311,14 +318,13 @@
 
 /*CUSTOM SELECT*/
 .custom-select {
-    background: #e1ffe1;
     width: 100%;
     position: relative;
     font-family: var(--jenis-font), serif;
     margin-right: 0;
 
     border: 1px solid #dcdcdc;
-    border-radius: 8px;
+    border-radius:  var(--border-radius-2);
 
 }
 
@@ -334,15 +340,15 @@
 
 .options {
     position: absolute;
-    top: 110%;
+    top: 120%;
     left: 0;
     right: 0;
     background: var(--color-white);
-    border-radius: 6px;
+    border-radius: var(--border-radius-2);
+    border: 1px solid #dcdcdc;
     overflow: hidden;
     display: none;
     z-index: 10;
-
 }
 
 .option {
@@ -371,4 +377,41 @@
 #selectedText {
     flex: 1;
     text-align: left;
+}
+
+#selectedText.empty {
+    color: #999;
+}
+
+/* Radio */
+.form-group-radio{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-group{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.radio-item{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.radio-item input[type="radio"]{
+    appearance: auto !important;
+    -webkit-appearance: radio !important;
+    -moz-appearance: radio !important;
+
+    width: 16px;
+    height: 16px;
+    margin: 0;
+
+    accent-color: var(--color-primary);
+    cursor: pointer;
 }

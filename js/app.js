@@ -30,6 +30,9 @@ async function loadPage(page) {
             loadTablePengguna();
             initPopupPengguna();
         }
+        if(page === 'master-data'){
+            initMasterData();
+        }
 
     } catch (error) {
 

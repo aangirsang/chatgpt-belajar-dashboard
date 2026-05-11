@@ -35,8 +35,8 @@
             <h2>Konfirmasi</h2>
             <p>Yakin ingin menghapus pengguna?</p>
             <div class="popup-actions">
-                <button id="batal-btn">Batal</button>
                 <button id="konfirmasi-hapus-btn">Hapus</button>
+                <button id="batal-btn">Batal</button>
             </div>
         </div>
     </div>
@@ -66,11 +66,7 @@
                             <label>Level</label>
                             <div class="custom-select" id="customSelect">
                                 <div class="select-box" id="selectBox">
-                                    <span
-                                            id="selectedText"
-                                            placeholder="Pilih level">
-
-                                    </span>
+                                    <span id="selectedText"></span>
                                     <span class="arrow" id="arrow">▼</span>
                                 </div>
 
@@ -80,19 +76,27 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-
+                        <div class="form-group-radio">
                             <label>Status</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status"
+                                            value="true"
+                                    >
+                                    <span>Aktif</span>
+                                </label>
 
-                            <select id="edit-status">
-                                <option value="aktif">
-                                    Aktif
-                                </option>
-
-                                <option value="nonaktif">
-                                    Nonaktif
-                                </option>
-                            </select>
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status"
+                                            value="false"
+                                    >
+                                    <span>Non-Aktif</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -138,7 +142,7 @@
                     <div class="form-right">
                         <!-- Preview -->
                         <div class="image-box">
-                            <img id="previewImage" alt="Foto Pengguna">
+                            <img id="previewImage" onerror="this.src='./images/no-image.png'" alt="Foto Pengguna">
                         </div>
 
                         <!-- Tombol Cari -->
