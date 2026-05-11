@@ -64,6 +64,7 @@ function showPopupHapus(index) {
 
 // tampil edit
 function showPopupEdit(index) {
+    bersih()
     isEditMode = true;
     selectedIndex = index;
 
@@ -80,7 +81,6 @@ function showPopupEdit(index) {
     document.getElementById('popup-edit').classList.add('active');
     document.getElementById('previewImage').src = '';
 
-    resetPasswordVisibility()
 }
 
 function bersih() {
