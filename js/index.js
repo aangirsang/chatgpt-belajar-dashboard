@@ -20,7 +20,7 @@ async function loadPage(page) {
         const response = await fetch(`pages/${page}.html`);
 
         const data = await response.text();
-        console.log(data);
+        //console.log(data);
 
         content.innerHTML = data;
 

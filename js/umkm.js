@@ -489,8 +489,21 @@ const rowsPerPage = 13;
 let sortField = "namaUsaha";
 let sortDirection = "asc";
 
+let selectedUmkm;
+
 function initUmkm() {
+
+    const batalHapusBtn = document.getElementById('batal-hapus-btn');
+    const konfirmasiHapusBtn = document.getElementById('konfirmasi-hapus-btn');
+    const tambahBtn = document.getElementById('add-UMKM-btn');
+    const batalEditBtn = document.getElementById('batal-umkm-btn');
+
     loadTableUMKM();
+
+    tambahBtn?.addEventListener('click', () => showPopupTambahUMKM(false));
+    batalHapusBtn?.addEventListener('click',() => closePopup("popup-hapus-umkm"));
+    konfirmasiHapusBtn?.addEventListener('click', hapusUmkm);
+    batalEditBtn?.addEventListener('click',() => closePopup("popup-edit-umkm"));
 }
 
 // LOAD TABLE
@@ -511,41 +524,31 @@ function loadTableUMKM() {
         // string
         if(typeof valueA === "string"){
 
-            const result =
-                valueA.localeCompare(valueB);
+            const result = valueA.localeCompare(valueB);
 
-            return sortDirection === "asc"
-                ? result
-                : -result;
+            return sortDirection === "asc"? result: -result;
         }
 
         // number
         const result = valueA - valueB;
 
-        return sortDirection === "asc"
-            ? result
-            : -result;
+        return sortDirection === "asc"? result: -result;
     });
 
-    const tbody =
-        document.getElementById("umkm-tbl-body");
+    const tbody = document.getElementById("umkm-tbl-body");
 
     tbody.innerHTML = '';
 
     // PAGINATION
-    const start =
-        (currentPage - 1) * rowsPerPage;
+    const start = (currentPage - 1) * rowsPerPage;
 
-    const end =
-        start + rowsPerPage;
+    const end = start + rowsPerPage;
 
-    const paginatedData =
-        dataUMKM.slice(start, end);
+    const paginatedData = dataUMKM.slice(start, end);
 
     paginatedData.forEach((item) => {
 
-        const isOpened =
-            openedDetailId === item.id;
+        const isOpened = openedDetailId === item.id;
 
         tbody.innerHTML += `
         
@@ -558,38 +561,17 @@ function loadTableUMKM() {
             <td>${item.noTelp}</td>
             <td>${item.alamat}</td>
             <td>${item.kategori}</td>
-            <td>
-                ${item.status ? 'Aktif' : 'Non-Aktif'}
-            </td>
+            <td>${item.status ? 'Aktif' : 'Non-Aktif'}</td>
 
             <td>
-
                 <div class="actions">
-
-                    <button
-                        onclick="
-                            event.stopPropagation();
-                            showPopupEdit('${item.id}')
-                        ">
-
-                        <span class="material-symbols-sharp">
-                            edit
-                        </span>
-
+                    <button onclick="event.stopPropagation(); showPopupEditUMKM('${item.id}')">
+                        <span class="material-symbols-sharp">edit</span>
                     </button>
 
-                    <button
-                        onclick="
-                            event.stopPropagation();
-                            showPopupHapus('${item.id}')
-                        ">
-
-                        <span class="material-symbols-sharp">
-                            delete
-                        </span>
-
+                    <button onclick="event.stopPropagation(); showPopupHapus('${item.id}')">
+                        <span class="material-symbols-sharp">delete</span>
                     </button>
-
                 </div>
 
             </td>
@@ -597,15 +579,10 @@ function loadTableUMKM() {
         </tr>
 
         <!-- DETAIL -->
-        <tr class="detail-row
-            ${isOpened ? 'show' : ''}">
-
-            <td colspan="7">
-
+        <tr class="detail-row ${isOpened ? 'show' : ''}">
+            <td colspan="6">
                 <div class="detail-content">
-
                     <table class="detail-horizontal-table">
-
                         <thead>
                             <tr>
                                 <th>Email</th>
@@ -616,43 +593,19 @@ function loadTableUMKM() {
                                 <th>Deskripsi</th>
                             </tr>
                         </thead>
-
                         <tbody>
-
                             <tr>
-
                                 <td>${item.email}</td>
-
-                                <td>
-                                    ${item.sosialMedia}
-                                </td>
-
-                                <td>
-                                    ${item.sosialMedia}
-                                </td>
-
-                                <td>
-                                    ${item.noTelp}
-                                </td>
-
-                                <td>
-                                    ${item.tanggalRegistrasi}
-                                </td>
-
-                                <td>
-                                    ${item.deskripsi}
-                                </td>
-
+                                <td>${item.sosialMedia}</td>
+                                <td>${item.sosialMedia}</td>
+                                <td>${item.noTelp}</td>
+                                <td>${item.tanggalRegistrasi}</td>
+                                <td>${item.deskripsi}</td>
                             </tr>
-
                         </tbody>
-
                     </table>
-
                 </div>
-
             </td>
-
         </tr>
         `;
     });
@@ -777,4 +730,47 @@ function toggleDetail(id){
         }
 
     }, 50);
+}
+
+// tampil popup Tambah UMKM
+function showPopupTambahUMKM() {
+    isEditMode = false;
+
+    document.getElementById('popup-edit-umkm').classList.add('active');
+}
+
+function showPopupEditUMKM(id){
+
+    isEditMode = true;
+
+    const umkm = dataUMKM.find(item => item.id === id);
+
+    console.log(umkm);
+
+    document.getElementById('popup-edit-umkm')
+        .classList.add('active');
+}
+
+function showPopupHapus(index) {
+    selectedUmkm = index;
+    document
+        .getElementById('popup-hapus-umkm')
+        .classList.add('active');
+}
+
+function hapusUmkm(){
+    if(selectedUmkm===null) return;
+
+    dataUMKM.splice(selectedUmkm, 1);
+    loadTableUMKM();
+    document.getElementById('popup-hapus-umkm').classList.remove('active');
+}
+
+// tutup popup hapus
+function closePopup(popup) {
+    selectedUmkm = null; // reset state biar aman
+
+    document
+        .getElementById(popup)
+        .classList.remove('active');
 }

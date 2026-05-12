@@ -1,24 +1,3 @@
-.add-btn,
-.popup-actions button{
-    color: var(--color-info-dark);
-    background: var(--color-white-input);
-    border: none;
-    padding: 12px 18px;
-    border-radius: var(--border-radius-2);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 1rem 2rem var(--color-light);;
-    transition: all 300ms ease;
-}
-
-.add-btn:hover,
-.popup-actions button:hover,
-.actions button:hover{
-    box-shadow: none;
-    color: var(--color-primary);
-}
 
 .add-btn.active {
     color: white;
@@ -32,28 +11,15 @@
 }
 
 .actions button{
-    background: var(--color-background);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     width: 35px;
     height: 35px;
 
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    border-radius: var(--border-radius-1);
 }
 
 .actions button span{
-    color: var(--color-dark-variant);
-
     font-size: 1.1rem;
-}
-
-.actions button span:hover {
-    color: var(--color-primary);
 }
 
 /*POPUP*/
@@ -98,13 +64,6 @@
     justify-content: end;
     gap: 1.6rem;
 
-}
-
-.popup-actions button{
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
 .form-grid {
@@ -154,15 +113,6 @@
     gap: 10px;
 
     margin-top: 20px;
-}
-
-.popup-actions button{
-    padding: 10px 16px;
-
-    border: none;
-    border-radius: 8px;
-
-    cursor: pointer;
 }
 
 .popup-content {
@@ -215,16 +165,22 @@
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
 }
-.form-right button{
-    padding: 10px 16px;
 
-    border: none;
-    border-radius: 8px;
+.password-box button{
+    width: 40px;
+    height: 40px;
 
-    cursor: pointer;
+    box-shadow: none;
+}
+
+.password-box button:hover,
+.password-box button:hover > span{
+    background: transparent;
+    color: var(--color-primary);
 }
 
 .password-box span {
+    background: transparent;
     color: var(--color-dark-variant);
     font-size: 1.2rem;
     width: 50%;

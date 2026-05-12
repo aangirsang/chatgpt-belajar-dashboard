@@ -27,6 +27,8 @@
 
     --box-shadow: 0 2rem 3rem var(--color-light);
 
+    --box-shadow-button: 0 2px 6px rgba(0,0,0,0.08);
+    --border-button: 1px solid #dcdcdc;
 
     --color-background-canvas: #fff;
     --color-white-input: #fff;

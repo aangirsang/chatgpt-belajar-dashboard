@@ -32,4 +32,153 @@
         </div>
         <div id="pagination" class="pagination"></div>
     </div>
+
+    <!--POPUP HAPUS-->
+    <div id="popup-hapus-umkm" class="popup">
+        <div class="popup-content-hapus">
+            <h2>Konfirmasi</h2>
+            <p>Yakin ingin menghapus pengguna?</p>
+            <div class="popup-actions">
+                <button id="konfirmasi-hapus-btn">Hapus</button>
+                <button id="batal-hapus-btn">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP UMKM -->
+    <div class="popup" id="popup-edit-umkm">
+        <div class="popup-content-umkm">
+            <form id="form-edit-umkm">
+                <h2>Data UMKM</h2>
+                <div class="form-umkm-grid">
+                    <div class="form-umkm-kiri">
+                        <h3>Data Usaha</h3>
+                        <div class="form-group">
+                            <label for="umkm-nama-usaha">Nama Usaha</label>
+                            <input type="text" id="umkm-nama-usaha">
+                        </div>
+                        <div class="form-group">
+                            <label>Kategori Usaha</label>
+                            <div class="custom-select" id="customSelect">
+                                <div class="select-box" id="selectBox-kategori-umkm">
+                                    <span id="selectedText"></span>
+                                    <span class="arrow" id="arrow">▼</span>
+                                </div>
+
+                                <div class="options" id="optionsList-kategori-umkm"></div>
+
+                                <input type="hidden" id="selectedValue">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-deskripsi-usaha">Deskripsi Usaha</label>
+
+                            <textarea
+                                    id="umkm-deskripsi-usaha"
+                                    rows="6"
+                                    placeholder="Masukkan deskripsi usaha">
+                            </textarea>
+                        </div>
+                        <div class="form-group-radio">
+                            <label>Status</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status"
+                                            value="true"
+                                    >
+                                    <span>Aktif</span>
+                                </label>
+
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status"
+                                            value="false"
+                                    >
+                                    <span>Non-Aktif</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-umkm-tengah">
+                        <h3>Data Pemilik</h3>
+                        <div class="form-group">
+                            <label for="umkm-nama-pemilik">Nama Pemilik</label>
+                            <input type="text" id="umkm-nama-pemilik">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-ktp">Nomor Identitas/KTP</label>
+                            <input type="text" id="umkm-ktp">
+                        </div>
+                        <div class="form-group-radio">
+                            <label>Jenis Kelamin</label>
+                            <div class="radio-group">
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="jenis-kelamin"
+                                            value="true"
+                                    >
+                                    <span>Laki-Laki</span>
+                                </label>
+
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="jenis-kelamin"
+                                            value="false"
+                                    >
+                                    <span>Perempuan</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-tanggal-lahir">Tanggal Lahir</label>
+                            <input type="text" id="umkm-tanggal-lahir">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-alamat">Alamat Lengkap</label>
+
+                            <textarea
+                                    id="umkm-alamat"
+                                    rows="4"
+                                    placeholder="Masukkan alamat lengkap">
+                            </textarea>
+                        </div>
+
+
+                    </div>
+                    <div class="form-umkm-kanan">
+                        <h3>Kontak</h3>
+                        <div class="form-group">
+                            <label for="umkm-email">Alamat Email</label>
+                            <input type="text" id="umkm-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-telp">Nomor Telepon</label>
+                            <input type="text" id="umkm-telp">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-wa">WhatsApp</label>
+                            <input type="text" id="umkm-wa">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-instagram">Instagram</label>
+                            <input type="text" id="umkm-instagram">
+                        </div>
+                        <div class="form-group">
+                            <label for="umkm-facebook">Facebook</label>
+                            <input type="text" id="umkm-facebook">
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-actions">
+                    <button type="submit" id="simpan-umkm-btn">Simpan</button>
+                    <button type="button" id="batal-umkm-btn">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
