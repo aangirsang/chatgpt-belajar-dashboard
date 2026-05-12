@@ -6,32 +6,50 @@ async function loadPage(page) {
     const content = document.getElementById('content');
     const title = document.getElementById('page-title');
 
+    // TITLE MANUAL
+    const pageTitles = {
+        dashboard: 'Dashboard',
+        pengguna: 'Data Pengguna',
+        'master-data': 'Master Data Aplikasi',
+        'umkm': 'Anggota UMKM',
+        laporan: 'Laporan Penjualan'
+    };
+
     try {
 
         const response = await fetch(`pages/${page}.html`);
 
-        let data;
-        data = await response.text();
+        const data = await response.text();
 
         content.innerHTML = data;
 
-        title.innerText =
-            page.charAt(0).toUpperCase() + page.slice(1);
+        // AMBIL TITLE
+        const pageTitle = pageTitles[page] || 'Aplikasi';
 
-        // LOAD CHART SETELAH HTML MASUK
+        // TITLE DI HALAMAN
+        title.innerText = pageTitle;
+
+        // TITLE TAB BROWSER
+        document.title = pageTitle;
+
         if(page === 'dashboard'){
-            // canvass
             Chart.defaults.font.family = 'Poppins';
             Chart.defaults.font.size = 12;
             loadCharts();
             loadTableOrder();
         }
+
         if(page === 'pengguna'){
             loadTablePengguna();
             initPopupPengguna();
         }
+
         if(page === 'master-data'){
             initMasterData();
+        }
+
+        if(page === 'umkm'){
+            initUmkm();
         }
 
     } catch (error) {
@@ -42,6 +60,8 @@ async function loadPage(page) {
                 <p>Halaman gagal dimuat</p>
             </div>
         `;
+
+        document.title = 'Error';
 
         console.error(error);
     }

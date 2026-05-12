@@ -1,0 +1,35 @@
+<div class="umkm">
+    <!-- SEARCH -->
+    <div class="search-bar">
+        <div class="search-box">
+            <span class="material-symbols-sharp">search</span>
+            <label>
+                <input type="text" placeholder="Cari Data UMKM">
+            </label>
+        </div>
+        <button class="add-btn" id="add-UMKM-btn">
+            <span class="material-symbols-sharp">add</span>
+            Tambah Anggota UMKM
+        </button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+        <div class="tabel-card">
+            <table class="umkm-tbl">
+                <thead>
+                <tr>
+                    <th onclick="sortTable('namaUsaha')">Nama Usaha</th>
+                    <th onclick="sortTable('namaPemilik')">Nama  Pemilik</th>
+                    <th onclick="sortTable('noTelep')">Telepon</th>
+                    <th onclick="sortTable('alamat')">Alamat</th>
+                    <th onclick="sortTable('kategori')">Kategori</th>
+                    <th onclick="sortTable('status')">Status</th>
+                </tr>
+                </thead>
+                <tbody id="umkm-tbl-body"></tbody>
+            </table>
+        </div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+</div>
