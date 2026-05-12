@@ -20,6 +20,7 @@ async function loadPage(page) {
         const response = await fetch(`pages/${page}.html`);
 
         const data = await response.text();
+        console.log(data);
 
         content.innerHTML = data;
 
@@ -32,6 +33,7 @@ async function loadPage(page) {
         // TITLE TAB BROWSER
         document.title = pageTitle;
 
+        /* global Chart */
         if(page === 'dashboard'){
             Chart.defaults.font.family = 'Poppins';
             Chart.defaults.font.size = 12;
@@ -68,7 +70,7 @@ async function loadPage(page) {
 }
 
 /* LOAD HALAMAN PERTAMA */
-loadPage('dashboard');
+void loadPage('dashboard');
 
 // SUBMENU
 function toggleSubmenu(submenuId, arrowId){
@@ -91,6 +93,7 @@ const themeToggler = document.querySelector(".theme-toggler");
 themeToggler.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme-variables');
 
+    /* global Chart */
     if(document.body.classList.contains('dark-theme-variables')){
         Chart.defaults.color = '#edeffd';
     }else{
@@ -170,6 +173,7 @@ function loadCharts(){
     // Diagram Batang
     const barCtx = document.getElementById('barChart');
 
+    /* global Chart */
     umkmChart = new Chart(barCtx, {
         type: 'bar',
         data: {
