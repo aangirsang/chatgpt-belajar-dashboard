@@ -300,6 +300,8 @@ function renderOptions() {
 
 // custom select dropdown
 function toggleCustomSelect() {
+    const optionsList = document.getElementById("optionsList");
+    const customSelect = document.getElementById("customSelect");
 
     const isOpen = optionsList.style.display === "block";
 
@@ -309,6 +311,8 @@ function toggleCustomSelect() {
 
 // klik diluar custom select
 function closeCustomSelectOutside(e) {
+    const optionsList = document.getElementById("optionsList");
+    const customSelect = document.getElementById("customSelect");
 
     const isClickInside = customSelect.contains(e.target);
 

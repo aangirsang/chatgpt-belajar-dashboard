@@ -20,7 +20,7 @@ async function loadPage(page) {
         const response = await fetch(`pages/${page}.html`);
 
         const data = await response.text();
-        console.log(data);
+        //console.log(data);
 
         content.innerHTML = data;
 
@@ -151,6 +151,16 @@ function loadCharts(){
         '#a3de4a',
         '#f88838'
     ]
+
+    const barCtx = document.getElementById('barChart');
+    const lineCtx = document.getElementById('lineChart');
+
+    if (!barCtx || !lineCtx) {
+        console.error("Canvas chart tidak ditemukan");
+        return;
+    }
+
+
     // SORT ASCENDING
     dataUmkm.sort((a, b) => b.total - a.total);
 
@@ -171,7 +181,6 @@ function loadCharts(){
     const values = topData.map(item => item.total);
 
     // Diagram Batang
-    const barCtx = document.getElementById('barChart');
 
     /* global Chart */
     umkmChart = new Chart(barCtx, {
@@ -223,7 +232,6 @@ function loadCharts(){
 
 
     // Diagram Garis
-    const lineCtx = document.getElementById('lineChart');
 
     const dataOrderan = [
         {bulan: "Desember", total: 250},

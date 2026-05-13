@@ -6,10 +6,25 @@ let dataLevel = [
 ];
 
 let dataKategori = [
-    { id: "1", kategori: "Makanan dan Minuman" },
-    { id: "2", kategori: "Fashion" },
-    { id: "3", kategori: "Craft" },
-    { id: "4", kategori: "Peternakan" }
+    { id: "1", kategori: "Dekorasi" },
+    { id: "2", kategori: "Kuliner" },
+    { id: "3", kategori: "Fashion" },
+    { id: "4", kategori: "Otomotif" },
+    { id: "5", kategori: "Frozen Food" },
+    { id: "6", kategori: "Furniture" },
+    { id: "7", kategori: "Jasa" },
+    { id: "8", kategori: "Kecantikan" },
+    { id: "9", kategori: "Kue" },
+    { id: "10", kategori: "Kuliner" },
+    { id: "11", kategori: "Mainan" },
+    { id: "12", kategori: "Makanan" },
+    { id: "13", kategori: "Makanan dan Minuman" },
+    { id: "14", kategori: "Makanan Ringan" },
+    { id: "15", kategori: "Minuman" },
+    { id: "16", kategori: "Percetakan" },
+    { id: "17", kategori: "Perikanan" },
+    { id: "18", kategori: "Pertanian" },
+    { id: "19", kategori: "Retail" }
 ];
 
 let selectedDeleteIndex = null;
@@ -97,7 +112,11 @@ function doubleKlikList(listId, type) {
 
     if (!list) return;
 
-    list.addEventListener("dblclick", () => {
+    list.addEventListener("dblclick", (e) => {
+
+        // kalau double click item, jangan tambah data
+        if (e.target.closest(".list-item")) return;
+
         showInput(listId, type);
     });
 }
@@ -109,7 +128,6 @@ function showInput(listId, type) {
 
     if (!container) return;
 
-    // cegah input ganda
     if (document.getElementById("new-input")) return;
 
     const input = document.createElement("input");
@@ -117,30 +135,30 @@ function showInput(listId, type) {
     input.type = "text";
     input.id = "new-input";
     input.placeholder = "Tambah data...";
-
     input.classList.add("new-input");
 
     container.appendChild(input);
-
     input.focus();
 
-    // KEYDOWN
+    let submitted = false;
+
     input.addEventListener("keydown", (e) => {
 
-        // ESC = batal tambah
         if (e.key === "Escape") {
-
+            submitted = true;
             input.remove();
-
             return;
         }
 
-        // ENTER = simpan
-        saveData(e, type);
+        if (e.key === "Enter") {
+            submitted = true;
+            saveData(e, type);
+        }
     });
 
-    // blur hapus input
     input.addEventListener("blur", () => {
+
+        if (submitted) return;
 
         input.remove();
     });
@@ -200,7 +218,9 @@ function saveData(e, type) {
         loadDataKategori();
     }
 
-    input.remove();
+    if (input.isConnected) {
+        input.remove();
+    }
 }
 
 // TAMPIL POPUP

@@ -56,7 +56,7 @@ let dataUMKM = [
         deskripsi: "Produksi dan penjualan kain batik",
         noKtp: "1271014507910004",
         jenisKelamin: false,
-        tanggalLahir: "45-07-1991",
+        tanggalLahir: "15-07-1991",
         noTelp: "0812-3333-0004",
         email: "batiknusantara@gmail.com",
         alamat: "Jl. Mawar Indah No. 4",
@@ -79,7 +79,7 @@ let dataUMKM = [
         sosialMedia: "@mainanceria",
         status: false,
         tanggalRegistrasi: "19-07-2022"
-    },
+    }/*,
     {
         id: "6",
         namaUsaha: "Laundry Bersih",
@@ -479,7 +479,7 @@ let dataUMKM = [
         sosialMedia: "@bungaflorist",
         status: true,
         tanggalRegistrasi: "30-01-2023"
-    }
+    }*/
 ];
 
 let currentPage = 1;
@@ -492,18 +492,60 @@ let sortDirection = "asc";
 let selectedUmkm;
 
 function initUmkm() {
+    const popupUmkm = document.getElementById("popup-edit-umkm");
 
     const batalHapusBtn = document.getElementById('batal-hapus-btn');
     const konfirmasiHapusBtn = document.getElementById('konfirmasi-hapus-btn');
     const tambahBtn = document.getElementById('add-UMKM-btn');
     const batalEditBtn = document.getElementById('batal-umkm-btn');
 
+    popupUmkm.addEventListener('submit', simpanUmkm);
+
     loadTableUMKM();
+    bersih();
+
+    // custom select
+    customSelectUmkm()
+    document.getElementById("selectBoxUmkmKategori")
+        .addEventListener("click", bukaSelectUmkm);
+    document.addEventListener("click", tutupSelectUmkm); // klik luar custom select
 
     tambahBtn?.addEventListener('click', () => showPopupTambahUMKM(false));
     batalHapusBtn?.addEventListener('click',() => closePopup("popup-hapus-umkm"));
     konfirmasiHapusBtn?.addEventListener('click', hapusUmkm);
     batalEditBtn?.addEventListener('click',() => closePopup("popup-edit-umkm"));
+}
+
+// Bersih
+function bersih(){
+
+    const ids = [
+        'umkm-nama-usaha',
+        'umkm-deskripsi-usaha',
+        'umkm-nama-pemilik',
+        'umkm-ktp',
+        'umkm-tanggal-lahir',
+        'umkm-alamat',
+        'umkm-email',
+        'umkm-telp',
+        'umkm-wa',
+        'umkm-instagram',
+        'umkm-facebook'
+
+    ];
+
+    ids.forEach(id => {
+        document.getElementById(id).value = "";
+    });
+
+    // reset radio
+    ['status', 'jenis-kelamin'].forEach(name =>
+        document.querySelectorAll(`input[name="${name}"]`)
+            .forEach(input => input.checked = false)
+    );
+
+    resetSelectUmkm();
+
 }
 
 // LOAD TABLE
@@ -732,45 +774,228 @@ function toggleDetail(id){
     }, 50);
 }
 
-// tampil popup Tambah UMKM
+// Popup UMKM
 function showPopupTambahUMKM() {
     isEditMode = false;
 
+    bersih()
+
     document.getElementById('popup-edit-umkm').classList.add('active');
 }
-
 function showPopupEditUMKM(id){
 
     isEditMode = true;
+    selectedUmkm = dataUMKM.findIndex(item => item.id === id);
 
-    const umkm = dataUMKM.find(item => item.id === id);
+    const umkm = dataUMKM[selectedUmkm];
+    const kategori = dataKategori.find(k => k.kategori === umkm.kategori);
 
-    console.log(umkm);
+    document.getElementById('umkm-nama-usaha').value = umkm.namaUsaha;
+    document.getElementById('selectedText').textContent = umkm.kategori;
+    document.getElementById('selectedValueUmkmKategori').value = kategori ? kategori.id : "";
+    document.getElementById('umkm-deskripsi-usaha').value = umkm.deskripsi;
+    document.getElementById('umkm-nama-pemilik').value = umkm.namaPemilik;
+    document.getElementById('umkm-ktp').value = umkm.noKtp;
+
+    const [hari, bulan, tahun] = umkm.tanggalLahir.split('-');
+    document.getElementById('umkm-tanggal-lahir').value = `${tahun}-${bulan}-${hari}`;
+
+    document.getElementById('umkm-alamat').value = umkm.alamat;
+    document.getElementById('umkm-email').value = umkm.email;
+    document.getElementById('umkm-telp').value = umkm.noTelp;
+    document.getElementById('umkm-wa').value = umkm.sosialMedia;
+    document.getElementById('umkm-instagram').value = umkm.sosialMedia;
+    document.getElementById('umkm-facebook').value = umkm.sosialMedia;
+
+    document.querySelector(
+        `input[name="status"][value="${umkm.status}"]`
+    ).checked = true;
+
+    document.querySelector(
+        `input[name="jenis-kelamin"][value="${umkm.jenisKelamin}"]`
+    ).checked = true;
+
+
 
     document.getElementById('popup-edit-umkm')
         .classList.add('active');
 }
+function simpanUmkm(e) {
+    e.preventDefault();
 
+    const get = id => document.getElementById(id);
+
+    function tandaiInvalid(element) {
+        element.classList.remove("error-validasi");
+        void element.offsetWidth;
+        element.classList.add("error-validasi");
+
+        setTimeout(() => {
+            element.classList.remove("error-validasi");
+        }, 800);
+    }
+
+    const fields = [
+        'umkm-nama-usaha',
+        'umkm-deskripsi-usaha',
+        'umkm-nama-pemilik',
+        'umkm-ktp',
+        'umkm-tanggal-lahir',
+        'umkm-alamat',
+        'umkm-email',
+        'umkm-telp'
+    ];
+
+    let valid = true;
+
+    fields.forEach(id => {
+        const input = get(id);
+
+        if (!input.value.trim()) {
+            tandaiInvalid(input);
+            valid = false;
+        }
+    });
+
+    // custom select
+    const kategori = get('selectedText').textContent.trim();
+    if (kategori === "Pilih Kategori Usaha") {
+        tandaiInvalid(get('selectBoxUmkmKategori'));
+        valid = false;
+    }
+
+    // radio status
+    const status = document.querySelector('input[name="status"]:checked');
+
+    if (!status) {
+        tandaiInvalid(document.getElementById('group-status'));
+        valid = false;
+    }
+
+    // radio jenis kelamin
+    const jenisKelamin = document.querySelector('input[name="jenis-kelamin"]:checked');
+
+    if (!jenisKelamin) {
+        tandaiInvalid(document.getElementById('group-jenis-kelamin'));
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    const [tahun, bulan, hari] = get('umkm-tanggal-lahir').value.split('-');
+
+    const umkmBaru = {
+        id: isEditMode ? dataUMKM[selectedUmkm].id : Date.now().toString(),
+        namaUsaha: get('umkm-nama-usaha').value.trim(),
+        kategori,
+        deskripsi: get('umkm-deskripsi-usaha').value.trim(),
+        namaPemilik: get('umkm-nama-pemilik').value.trim(),
+        noKtp: get('umkm-ktp').value.trim(),
+        tanggalLahir: `${hari}-${bulan}-${tahun}`,
+        alamat: get('umkm-alamat').value.trim(),
+        email: get('umkm-email').value.trim(),
+        noTelp: get('umkm-telp').value.trim(),
+        sosialMedia: get('umkm-wa').value.trim(),
+        status: status.value === 'true',
+        jenisKelamin: jenisKelamin.value === 'true',
+        tanggalRegistrasi: isEditMode
+            ? dataUMKM[selectedUmkm].tanggalRegistrasi
+            : new Date().toLocaleDateString('id-ID')
+    };
+
+    if (isEditMode) {
+        dataUMKM[selectedUmkm] = umkmBaru;
+    } else {
+        dataUMKM.push(umkmBaru);
+    }
+
+    loadTableUMKM();
+    closePopup('popup-edit-umkm');
+    bersih();
+}
+
+//Popup Hapus
 function showPopupHapus(index) {
     selectedUmkm = index;
     document
         .getElementById('popup-hapus-umkm')
         .classList.add('active');
 }
-
 function hapusUmkm(){
     if(selectedUmkm===null) return;
 
-    dataUMKM.splice(selectedUmkm, 1);
+    dataUMKM = dataUMKM.filter(item => item.id !== selectedUmkm);
+
     loadTableUMKM();
-    document.getElementById('popup-hapus-umkm').classList.remove('active');
+    closePopup("popup-hapus-umkm");
 }
 
-// tutup popup hapus
+// Tutup Popup
 function closePopup(popup) {
     selectedUmkm = null; // reset state biar aman
 
     document
         .getElementById(popup)
         .classList.remove('active');
+}
+
+// Isi Custom Select
+function customSelectUmkm() {
+    const optionsList = document.getElementById("optionsListUmkmKategori");
+    const selectedText = document.getElementById("selectedText");
+    const selectedValue = document.getElementById("selectedValueUmkmKategori");
+    const customSelect = document.getElementById("selectUmkmKategori");
+
+    optionsList.innerHTML = "";
+
+    dataKategori.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add('option');
+        div.textContent = item.kategori;
+        div.dataset.value = item.id;
+        div.addEventListener('click', () => {
+            selectedText.textContent = item.kategori;
+            selectedText.classList.remove("empty");
+            selectedValue.value = item.id;
+            optionsList.style.display = "none";
+            customSelect.classList.remove("active");
+        });
+
+        optionsList.appendChild(div);
+    })
+}
+function bukaSelectUmkm() {
+    const optionsList = document.getElementById("optionsListUmkmKategori");
+    const customSelect = document.getElementById("selectUmkmKategori");
+
+    const isOpen = optionsList.style.display === "block";
+
+    optionsList.style.display = isOpen ? "none" : "block";
+    customSelect.classList.toggle("active", !isOpen);
+}
+function tutupSelectUmkm(e) {
+    const optionsList = document.getElementById("optionsListUmkmKategori");
+    const customSelect = document.getElementById("selectUmkmKategori");
+
+    if (!customSelect || !optionsList) return;
+
+    const isClickInside = customSelect.contains(e.target);
+
+    if (!isClickInside) {
+        optionsList.style.display = "none";
+        customSelect.classList.remove("active");
+    }
+}
+function resetSelectUmkm() {
+    const selectedText = document.getElementById("selectedText");
+    const selectedValue = document.getElementById("selectedValueUmkmKategori");
+    const optionsList = document.getElementById("optionsListUmkmKategori");
+    const customSelect = document.getElementById("selectUmkmKategori");
+
+    selectedText.textContent = "Pilih Kategori Usaha";
+    selectedText.classList.add("empty");
+    selectedValue.value = "";
+
+    optionsList.style.display = "none";
+    customSelect.classList.remove("active");
 }

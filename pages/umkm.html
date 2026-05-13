@@ -55,19 +55,19 @@
                         <h3>Data Usaha</h3>
                         <div class="form-group">
                             <label for="umkm-nama-usaha">Nama Usaha</label>
-                            <input type="text" id="umkm-nama-usaha">
+                            <input type="text" id="umkm-nama-usaha" placeholder="Masukkan nama usaha">
                         </div>
                         <div class="form-group">
                             <label>Kategori Usaha</label>
-                            <div class="custom-select" id="customSelect">
-                                <div class="select-box" id="selectBox-kategori-umkm">
-                                    <span id="selectedText"></span>
+                            <div class="custom-select" id="selectUmkmKategori" >
+                                <div class="select-box" id="selectBoxUmkmKategori" >
+                                    <span id="selectedText" class="empty">Pilih kategori usaha</span>
                                     <span class="arrow" id="arrow">▼</span>
                                 </div>
 
-                                <div class="options" id="optionsList-kategori-umkm"></div>
+                                <div class="options" id="optionsListUmkmKategori"></div>
 
-                                <input type="hidden" id="selectedValue">
+                                <input type="hidden" id="selectedValueUmkmKategori">
                             </div>
                         </div>
                         <div class="form-group">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group-radio">
                             <label>Status</label>
-                            <div class="radio-group">
+                            <div class="radio-group" id="group-status">
                                 <label class="radio-item">
                                     <input
                                             type="radio"
@@ -106,37 +106,29 @@
                         <h3>Data Pemilik</h3>
                         <div class="form-group">
                             <label for="umkm-nama-pemilik">Nama Pemilik</label>
-                            <input type="text" id="umkm-nama-pemilik">
+                            <input type="text" id="umkm-nama-pemilik" placeholder="Masukkan nama pemilik usaha">
                         </div>
                         <div class="form-group">
                             <label for="umkm-ktp">Nomor Identitas/KTP</label>
-                            <input type="text" id="umkm-ktp">
+                            <input type="text" id="umkm-ktp" placeholder="Masukkan Nomor Identitas/KTP">
                         </div>
                         <div class="form-group-radio">
                             <label>Jenis Kelamin</label>
-                            <div class="radio-group">
+                            <div class="radio-group" id="group-jenis-kelamin">
                                 <label class="radio-item">
-                                    <input
-                                            type="radio"
-                                            name="jenis-kelamin"
-                                            value="true"
-                                    >
+                                    <input type="radio" name="jenis-kelamin" value="true">
                                     <span>Laki-Laki</span>
                                 </label>
 
                                 <label class="radio-item">
-                                    <input
-                                            type="radio"
-                                            name="jenis-kelamin"
-                                            value="false"
-                                    >
+                                    <input type="radio" name="jenis-kelamin" value="false">
                                     <span>Perempuan</span>
                                 </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="umkm-tanggal-lahir">Tanggal Lahir</label>
-                            <input type="text" id="umkm-tanggal-lahir">
+                            <input type="date" id="umkm-tanggal-lahir" placeholder="Masukkan tanggal lahir">
                         </div>
                         <div class="form-group">
                             <label for="umkm-alamat">Alamat Lengkap</label>
@@ -154,23 +146,23 @@
                         <h3>Kontak</h3>
                         <div class="form-group">
                             <label for="umkm-email">Alamat Email</label>
-                            <input type="text" id="umkm-email">
+                            <input type="text" id="umkm-email" placeholder="Masukkan alamat email">
                         </div>
                         <div class="form-group">
                             <label for="umkm-telp">Nomor Telepon</label>
-                            <input type="text" id="umkm-telp">
+                            <input type="text" id="umkm-telp" placeholder="Masukkan nomor telepon">
                         </div>
                         <div class="form-group">
                             <label for="umkm-wa">WhatsApp</label>
-                            <input type="text" id="umkm-wa">
+                            <input type="text" id="umkm-wa" placeholder="Masukkan nomor whatsapp">
                         </div>
                         <div class="form-group">
                             <label for="umkm-instagram">Instagram</label>
-                            <input type="text" id="umkm-instagram">
+                            <input type="text" id="umkm-instagram" placeholder="Masukkan akun instagram">
                         </div>
                         <div class="form-group">
                             <label for="umkm-facebook">Facebook</label>
-                            <input type="text" id="umkm-facebook">
+                            <input type="text" id="umkm-facebook" placeholder="Masukkan akun Facebook">
                         </div>
                     </div>
                 </div>
