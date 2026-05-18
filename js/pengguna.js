@@ -18,7 +18,7 @@ let dataPengguna = [
     }
 ];
 
-let isEditMode = false;
+let isEditModePengguna = false;
 let cariKey = ""
 let selectedIndex
 
@@ -119,7 +119,7 @@ function showPopupHapus(index) {
 // tampil edit
 function showPopupEdit(index) {
     bersih()
-    isEditMode = true;
+    isEditModePengguna = true;
     selectedIndex = index;
 
     const pengguna = dataPengguna[index];
@@ -204,7 +204,7 @@ function simpanPengguna(e) {
         kataSandi: document.getElementById('kata-sandi').value,
     };
 
-    if (isEditMode) {
+    if (isEditModePengguna) {
         // EDIT data
         dataPengguna[selectedIndex] = penggunaBaru;
 
@@ -262,7 +262,7 @@ function resetPasswordVisibility() {
 // tampil popup tambah pengguna
 function showPopupTambah() {
 
-    isEditMode = false;
+    isEditModePengguna = false;
 
     bersih(); // kosongkan form
 

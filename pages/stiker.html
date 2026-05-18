@@ -54,15 +54,15 @@
                         <h3>Data Usaha</h3>
                         <div class="form-group">
                             <label for="stiker-nama-usaha">Nama Usaha</label>
-                            <input type="text" id="stiker-nama-usaha" placeholder="Masukkan nama usaha">
+                            <input type="text" id="stiker-nama-usaha" placeholder="Masukkan nama usaha" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-nama-pemilik">Nama Pemilik</label>
-                            <input type="text" id="stiker-nama-pemilik" placeholder="Masukkan nama usaha">
+                            <input type="text" id="stiker-nama-pemilik" placeholder="Masukkan nama usaha" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-telp">Nomor Telepon</label>
-                            <input type="text" id="stiker-telp" placeholder="Masukkan nama usaha">
+                            <input type="text" id="stiker-telp" placeholder="Masukkan nama usaha" readonly>
                         </div>
                         <button type="button" id="stiker-umkm-btn">Cari UMKM</button>
                     </div>
@@ -83,8 +83,8 @@
                                     <label for="stiker-panjang">Panjang Stiker</label>
 
                                     <div class="input-custom">
-                                        <span class="garis-horizontal"></span>
-                                        <input type="text" id="stiker-panjang" placeholder="Panjang stiker">
+                                        <span class="garis-vertikal"></span>
+                                        <input type="number" id="stiker-panjang" placeholder="Panjang stiker" min="0">
                                         <h4>cm</h4>
                                     </div>
                                 </div>
@@ -94,8 +94,8 @@
                                     <label for="stiker-lebar">Lebar Stiker</label>
 
                                     <div class="input-custom">
-                                        <span class="garis-vertikal"></span>
-                                        <input type="text" id="stiker-lebar" placeholder="Lebar stiker">
+                                        <span class="garis-horizontal"></span>
+                                        <input type="number" id="stiker-lebar" placeholder="Lebar stiker" min="0">
                                         <h4>cm</h4>
                                     </div>
                                 </div>
@@ -111,8 +111,46 @@
                     </div>
                 </div>
                 <div class="popup-actions">
-                    <button type="submit" id="simpan-umkm-btn">Simpan</button>
+                    <button type="submit" id="simpan-stiker-btn">Simpan</button>
                     <button type="button" id="batal-edit-stiker">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- POPUP CARI UMKM -->
+    <div class="popup" id="popupStikerCariUmkm">
+        <div class="popup-content-stiker">
+            <form id="formStikerCariUmkm">
+                <h2>Data Umkm</h2>
+                <div class="search-bar">
+                    <div class="search-box">
+                        <span class="material-symbols-sharp">search</span>
+                        <label>
+                            <input type="text" id="cariUmkm" placeholder="Cari Data Umkm">
+                        </label>
+                    </div>
+                    <button type="button" id="BatalPilihBtn">
+                        <span class="material-symbols-sharp">close</span>
+                    </button>
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-container-cari-umkm">
+                    <div class="tabel-card-cari-umkm">
+                        <table class="CariUmkmTbl">
+                            <thead>
+                            <tr>
+                                <th onclick="sortTableCariUmkm('namaUsaha')">Nama Usaha</th>
+                                <th onclick="sortTableCariUmkm('namaPemilik')">Nama Pemilik</th>
+                                <th onclick="sortTableCariUmkm('noTelp')">Nomor Telepon</th>
+                                <th onclick="sortTableCariUmkm('sosialMedia')">Instagram</th>
+                            </tr>
+                            </thead>
+                            <tbody id="CariUmkmTBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="pagination-cari-umkm" class="pagination"></div>
                 </div>
             </form>
         </div>

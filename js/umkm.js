@@ -483,7 +483,7 @@ let dataUMKM = [
 ];
 
 let currentPage = 1;
-let searchKeyword = "";
+let searchKeywordUmkm = "";
 let openedDetailId = null;
 const rowsPerPage = 13;
 
@@ -491,6 +491,8 @@ let sortField = "namaUsaha";
 let sortDirection = "asc";
 
 let selectedUmkm;
+
+let isEditModeUmkm = false;
 
 function initUmkm() {
     const popupUmkm = document.getElementById("popup-edit-umkm");
@@ -503,7 +505,7 @@ function initUmkm() {
     popupUmkm.addEventListener('submit', simpanUmkm);
 
     loadTableUMKM();
-    bersih();
+    bersihUmkm();
 
     // custom select
     customSelectUmkm()
@@ -523,7 +525,7 @@ function initUmkm() {
 }
 
 // Bersih
-function bersih(){
+function bersihUmkm(){
 
     const ids = [
         'umkm-nama-usaha',
@@ -564,7 +566,7 @@ function loadTableUMKM() {
             .join(" ")
             .toLowerCase();
 
-        return semuaData.includes(searchKeyword);
+        return semuaData.includes(searchKeywordUmkm);
     });
 
     filteredData.sort((a, b) => {
@@ -708,7 +710,7 @@ function loadPagination(){
             .join(" ")
             .toLowerCase();
 
-        return semuaData.includes(searchKeyword);
+        return semuaData.includes(searchKeywordUmkm);
     });
 
     const totalPages =
@@ -762,7 +764,7 @@ function changePage(page){
             .join(" ")
             .toLowerCase();
 
-        return semuaData.includes(searchKeyword);
+        return semuaData.includes(searchKeywordUmkm);
     });
 
     const totalPages =
@@ -835,15 +837,15 @@ function closeDetailOutside(e){
 
 // Popup UMKM
 function showPopupTambahUMKM() {
-    isEditMode = false;
+    isEditModeUmkm = false;
 
-    bersih()
+    bersihUmkm()
 
     document.getElementById('popup-edit-umkm').classList.add('active');
 }
 function showPopupEditUMKM(id){
 
-    isEditMode = true;
+    isEditModeUmkm = true;
     selectedUmkm = dataUMKM.findIndex(item => item.id === id);
 
     const umkm = dataUMKM[selectedUmkm];
@@ -879,8 +881,7 @@ function showPopupEditUMKM(id){
     document.getElementById('popup-edit-umkm')
         .classList.add('active');
 }
-function simpanUmkm(e) {
-    e.preventDefault();
+function validasiUmkm() {
 
     const get = id => document.getElementById(id);
 
@@ -916,35 +917,48 @@ function simpanUmkm(e) {
         }
     });
 
-    // custom select
+    // kategori
     const kategori = get('selectedText').textContent.trim();
+
     if (kategori === "Pilih Kategori Usaha") {
         tandaiInvalid(get('selectBoxUmkmKategori'));
         valid = false;
     }
 
-    // radio status
+    // status
     const status = document.querySelector('input[name="status"]:checked');
 
     if (!status) {
-        tandaiInvalid(document.getElementById('group-status'));
+        tandaiInvalid(get('group-status'));
         valid = false;
     }
 
-    // radio jenis kelamin
+    // jenis kelamin
     const jenisKelamin = document.querySelector('input[name="jenis-kelamin"]:checked');
 
     if (!jenisKelamin) {
-        tandaiInvalid(document.getElementById('group-jenis-kelamin'));
+        tandaiInvalid(get('group-jenis-kelamin'));
         valid = false;
     }
 
-    if (!valid) return;
+    return valid;
+}
+
+function simpanUmkm(e) {
+    e.preventDefault();
+
+    if (!validasiUmkm()) return;
+
+    const get = id => document.getElementById(id);
 
     const [tahun, bulan, hari] = get('umkm-tanggal-lahir').value.split('-');
 
+    const status = document.querySelector('input[name="status"]:checked');
+    const jenisKelamin = document.querySelector('input[name="jenis-kelamin"]:checked');
+    const kategori = get('selectedText').textContent.trim();
+
     const umkmBaru = {
-        id: isEditMode ? dataUMKM[selectedUmkm].id : Date.now().toString(),
+        id: isEditModeUmkm ? dataUMKM[selectedUmkm].id : Date.now().toString(),
         namaUsaha: get('umkm-nama-usaha').value.trim(),
         kategori,
         deskripsi: get('umkm-deskripsi-usaha').value.trim(),
@@ -957,12 +971,12 @@ function simpanUmkm(e) {
         sosialMedia: get('umkm-wa').value.trim(),
         status: status.value === 'true',
         jenisKelamin: jenisKelamin.value === 'true',
-        tanggalRegistrasi: isEditMode
+        tanggalRegistrasi: isEditModeUmkm
             ? dataUMKM[selectedUmkm].tanggalRegistrasi
             : new Date().toLocaleDateString('id-ID')
     };
 
-    if (isEditMode) {
+    if (isEditModeUmkm) {
         dataUMKM[selectedUmkm] = umkmBaru;
     } else {
         dataUMKM.push(umkmBaru);
@@ -970,7 +984,7 @@ function simpanUmkm(e) {
 
     loadTableUMKM();
     closePopup('popup-edit-umkm');
-    bersih();
+    bersihUmkm();
 }
 
 //Popup Hapus
@@ -1065,7 +1079,7 @@ function cariUmkm(){
     const input =
         document.getElementById("search-umkm");
 
-    searchKeyword = input.value
+    searchKeywordUmkm = input.value
         .toLowerCase()
         .trim();
 

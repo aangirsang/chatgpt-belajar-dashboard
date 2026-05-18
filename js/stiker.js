@@ -310,10 +310,20 @@ let openedDetailStiker = null;
 
 const rowsPerPageStiker = 13;
 
+let currentPageCariUmkm = 1;
+const rowsPerPageCariUmkm = 9;
+
 let sortStiker = "namaStiker";
+let sortCariUmkm = "namaPemilik";
 let sortDirectionStiker = "asc";
 
 let selectedStiker;
+let selectedCariUmkm;
+
+let searchKeywordCariUmkm = "";
+let searchKeywordStiker = "";
+
+let isEditModeStiker = false;
 
 // ========================================
 // INIT
@@ -321,16 +331,24 @@ let selectedStiker;
 
 function initStiker(){
 
-
     loadTableStiker();
+    loadTableCariUmkm();
     initSearchStiker();
+    cariStikerUmkm();
 
     document
         .getElementById("tambah-stiker-btn")
-        .addEventListener("click", showPopupStiker);
+        .addEventListener("click", () => showPopupStiker());
+    document
+        .getElementById("stiker-umkm-btn")
+        .addEventListener("click", showPopupCariUmkm);
     document
         .getElementById("batal-hapus-stiker")
         .addEventListener("click", () => tutupPopupStiker('popup-hapus-stiker')
+        );
+    document
+        .getElementById("BatalPilihBtn")
+        .addEventListener("click", () => tutupPopupStiker('popupStikerCariUmkm')
         );
     document
         .getElementById("batal-edit-stiker")
@@ -340,6 +358,9 @@ function initStiker(){
         .getElementById("hapus-stiker-btn")
         .addEventListener("click", () => hapusStiker()
         );
+    document
+        .getElementById("form-stiker")
+        .addEventListener("submit", simpanStiker);
 
     document.removeEventListener("click", closeDetailStikerOutside);
     document.addEventListener("click", closeDetailStikerOutside);
@@ -367,6 +388,15 @@ function loadTableStiker(){
     loadPaginationStiker(filteredData.length);
 }
 
+function loadTableCariUmkm(){
+    const filterData = filterDataCariUmkm();
+    const sortedData = sortDataCariUmkm(filterData);
+    const paginatedData = getPaginatedDataCariUmkm(sortedData);
+    renderTabelCariUmkm(paginatedData);
+
+    loadPaginationCariUmkm(filterData.length);
+
+}
 
 // ========================================
 // FILTER
@@ -386,12 +416,24 @@ function getFilteredDataStiker(){
             .toLowerCase();
 
         return semuaData.includes(
-            searchKeyword.toLowerCase()
+            searchKeywordStiker.toLowerCase()
         );
     });
 }
 
+function filterDataCariUmkm(){
 
+    return dataUMKM.filter(item => {
+
+        const semuaData = Object.values(item)
+            .join(" ")
+            .toLowerCase();
+
+        return semuaData.includes(
+            searchKeywordCariUmkm.toLowerCase()
+        );
+    });
+}
 // ========================================
 // SORT
 // ========================================
@@ -439,7 +481,23 @@ function getSortedDataStiker(data){
     });
 }
 
+function sortDataCariUmkm(data){
 
+    return [...data].sort((a, b) => {
+
+        let valueA = a[sortCariUmkm] ?? "";
+        let valueB = b[sortCariUmkm] ?? "";
+
+        valueA = valueA.toString().toLowerCase();
+        valueB = valueB.toString().toLowerCase();
+
+        const result = valueA.localeCompare(valueB);
+
+        return sortDirectionStiker === "asc"
+            ? result
+            : -result;
+    });
+}
 // ========================================
 // PAGINATION
 // ========================================
@@ -450,6 +508,12 @@ function getPaginatedDataStiker(data){
     return data.slice(start, end);
 }
 
+function getPaginatedDataCariUmkm(data){
+    const start = (currentPageCariUmkm - 1) * rowsPerPageCariUmkm;
+    const end = start + rowsPerPageCariUmkm;
+
+    return data.slice(start, end);
+}
 
 // ========================================
 // RENDER TABLE
@@ -478,6 +542,18 @@ function renderTableStiker(data){
     tbody.innerHTML = html;
 }
 
+function renderTabelCariUmkm(data){
+    const tbody = document.getElementById("CariUmkmTBody");
+    let html = "";
+
+    data.forEach(item => {
+        html += createRowCariUmkm(
+            item
+        );
+    });
+
+    tbody.innerHTML = html;
+}
 
 // ========================================
 // CREATE ROW
@@ -531,6 +607,20 @@ function createRowStiker(item, umkm, isOpened ){
                     </table>
                 </div>
             </td>
+        </tr>
+    `;
+}
+
+function createRowCariUmkm(item){
+    return `
+        <!-- ROW UTAMA -->
+        <tr class="${selectedCariUmkm?.id === item.id ? 'selected-row' : ''}"
+    ondblclick="pilihUmkm('${item.id}')">
+
+            <td>${item.namaUsaha}</td>
+            <td>${item.namaPemilik}</td>
+            <td>${item.noTelp}</td>
+            <td>${item.sosialMedia}</td>
         </tr>
     `;
 }
@@ -604,6 +694,41 @@ function loadPaginationStiker(totalData){
     `;
 }
 
+function loadPaginationCariUmkm(totalData) {
+    const pagination = document.getElementById("pagination-cari-umkm");
+    pagination.innerHTML = "";
+
+    const totalPages = Math.max(1, Math.ceil(totalData / rowsPerPageCariUmkm));
+
+    pagination.innerHTML += `
+        <button
+            onclick="changePageCariUmkm(${currentPageCariUmkm - 1})"
+            ${currentPageCariUmkm === 1 ? "disabled" : ""}
+        >
+            Prev
+        </button>
+    `;
+
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += `
+            <button
+                class="${i === currentPageCariUmkm ? "active" : ""}"
+                onclick="changePageCariUmkm(${i})"
+            >
+                ${i}
+            </button>
+        `;
+    }
+
+    pagination.innerHTML += `
+        <button
+            onclick="changePageCariUmkm(${currentPageCariUmkm + 1})"
+            ${currentPageCariUmkm === totalPages ? "disabled" : ""}
+        >
+            Next
+        </button>
+    `;
+}
 
 // ========================================
 // SORT ACTION
@@ -629,6 +754,27 @@ function sortTableStiker(field){
     }
 
     loadTableStiker();
+}
+function sortTableCariUmkm(field){
+
+    // FIELD SAMA
+    if(sortCariUmkm === field){
+
+        sortDirectionStiker =
+            sortDirectionStiker === "asc"
+                ? "desc"
+                : "asc";
+    }
+
+    // FIELD BARU
+    else {
+
+        sortCariUmkm = field;
+
+        sortDirectionStiker = "asc";
+    }
+
+    loadTableCariUmkm();
 }
 
 
@@ -656,6 +802,21 @@ function changePageStiker(page){
     openedDetailStiker = null;
 
     loadTableStiker();
+}
+
+function changePageCariUmkm(page){
+
+    const totalData = filterDataCariUmkm().length;
+
+    const totalPages = Math.ceil(totalData / rowsPerPageCariUmkm);
+
+    if(page < 1 || page > totalPages){
+        return;
+    }
+
+    currentPageCariUmkm = page;
+
+    loadTableCariUmkm();
 }
 
 
@@ -699,7 +860,6 @@ function toggleDetailStiker(id){
 
     }, 50);
 }
-
 
 // ========================================
 // CLOSE DETAIL OUTSIDE
@@ -752,7 +912,7 @@ function initSearchStiker(){
 
     inputSearch.addEventListener("input", function (){
 
-        searchKeyword =
+        searchKeywordStiker =
             this.value.trim().toLowerCase();
 
         // RESET PAGE
@@ -766,35 +926,69 @@ function initSearchStiker(){
     });
 }
 
+function cariStikerUmkm(){
+    const inputSearch =
+        document.getElementById("cariUmkm");
+
+        inputSearch.addEventListener("input", function () {
+
+        searchKeywordCariUmkm =
+            this.value.trim().toLowerCase();
+
+        // RESET PAGE
+        currentPageCariUmkm = 1;
+
+        // RELOAD TABLE
+        loadTableCariUmkm();
+    });
+}
+
 
 // ========================================
 // POPUP
 // ========================================
 function showPopupStiker(id = null){
 
-    const popup =
-        document.getElementById(
-            "popup-stiker"
-        );
+    const popup = document.getElementById("popup-stiker");
 
     // MODE TAMBAH
     if(id === null){
 
-        isEditMode = false;
+        isEditModeStiker = false;
+        selectedStiker = null;
+        selectedCariUmkm = null;
 
         popup.classList.add("show");
 
         console.log("Tambah Stiker");
-
         return;
     }
 
     // MODE EDIT
-    isEditMode = true;
+    isEditModeStiker = true;
+
+    selectedStiker = dataStiker.find(item => item.id === id);
+
+    if(!selectedStiker) return;
+
+    selectedCariUmkm = getUMKM(selectedStiker.umkmId);
+
+    if(selectedCariUmkm){
+        document.getElementById("stiker-nama-usaha").value = selectedCariUmkm.namaUsaha;
+        document.getElementById("stiker-nama-pemilik").value = selectedCariUmkm.namaPemilik;
+        document.getElementById("stiker-telp").value = selectedCariUmkm.noTelp;
+    }
+
+    document.getElementById("stiker-kode").value = selectedStiker.kodeStiker;
+    document.getElementById("stiker-nama").value = selectedStiker.namaStiker;
+    document.getElementById("stiker-panjang").value = selectedStiker.panjang;
+    document.getElementById("stiker-lebar").value = selectedStiker.lebar;
+    document.getElementById("stiker-catatan").value = selectedStiker.catatan;
 
     popup.classList.add("show");
 
     console.log("Edit Stiker:", id);
+    console.log("Umkm: ", selectedCariUmkm.namaUsaha);
 }
 function showPopupHapusStiker(id){
 
@@ -810,15 +1004,14 @@ function showPopupHapusStiker(id){
 }
 function tutupPopupStiker(popup){
 
-    selectedStiker = null;
+    if(popup === "popup-stiker"){
+        selectedStiker = null;
+        selectedCariUmkm = null;
+    }
 
-    document
-        .getElementById(popup)
-        .classList.remove("show");
+    document.getElementById(popup).classList.remove("show");
+    document.getElementById(popup).classList.remove("active");
 
-    document
-        .getElementById(popup)
-        .classList.remove("active");
 }
 function hapusStiker(){
 
@@ -836,3 +1029,109 @@ function hapusStiker(){
 
     tutupPopupStiker("popup-hapus-stiker");
 }
+function showPopupCariUmkm() {
+    searchKeywordCariUmkm = "";
+    currentPageCariUmkm = 1;
+
+    document.getElementById("cariUmkm").value = "";
+
+    loadTableCariUmkm(); // wajib refresh table + pagination
+
+    const popup = document.getElementById("popupStikerCariUmkm");
+    popup.classList.add("show");
+}
+
+function pilihUmkm(id){
+
+    const umkm = dataUMKM.find(item => item.id === id);
+
+    if(!umkm) return;
+
+    selectedCariUmkm = umkm;
+
+    document.getElementById("stiker-nama-usaha").value = selectedCariUmkm.namaUsaha;
+    document.getElementById("stiker-nama-pemilik").value = selectedCariUmkm.namaPemilik;
+    document.getElementById("stiker-telp").value = selectedCariUmkm.noTelp;
+
+    tutupPopupStiker("popupStikerCariUmkm");
+
+}
+
+function validasiStiker() {
+
+    const get = id => document.getElementById(id);
+
+    function tandaiInvalid(element) {
+        element.classList.remove("error-validasi");
+        void element.offsetWidth;
+        element.classList.add("error-validasi");
+
+        setTimeout(() => {
+            element.classList.remove("error-validasi");
+        }, 800);
+    }
+
+    let valid = true;
+
+    // VALIDASI UMKM
+    if (!selectedCariUmkm) {
+        tandaiInvalid(get("stiker-nama-usaha"));
+        tandaiInvalid(get("stiker-nama-pemilik"));
+        tandaiInvalid(get("stiker-telp"));
+        valid = false;
+    }
+
+    // VALIDASI INPUT
+    const fields = [
+        "stiker-kode",
+        "stiker-nama",
+        "stiker-panjang",
+        "stiker-lebar",
+        "stiker-catatan"
+    ];
+
+    fields.forEach(id => {
+        const input = get(id);
+
+        if (!input.value.trim()) {
+            tandaiInvalid(input);
+            valid = false;
+        }
+    });
+
+    return valid;
+}
+
+function simpanStiker(e){
+    e.preventDefault();
+
+    if(!validasiStiker()) return;
+
+    const get = id => document.getElementById(id);
+
+    const stikerBaru = {
+        id: isEditModeStiker ? selectedStiker.id : Date.now().toString(),
+        umkmId: selectedCariUmkm.id,
+        kodeStiker: get('stiker-kode').value.trim(),
+        namaStiker: get('stiker-nama').value.trim(),
+        panjang: Number(get('stiker-panjang').value),
+        lebar: Number(get('stiker-lebar').value),
+        catatan: get('stiker-catatan').value.trim(),
+        status: true
+    };
+
+    if (isEditModeStiker) {
+        const index = dataStiker.findIndex(item => item.id === selectedStiker.id);
+
+        if (index !== -1) {
+            dataStiker[index] = stikerBaru;
+        }
+    } else {
+        dataStiker.push(stikerBaru);
+    }
+
+    loadTableStiker();
+    tutupPopupStiker("popup-stiker");
+}
+
+
