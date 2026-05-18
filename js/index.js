@@ -20,7 +20,7 @@ async function loadPage(page) {
         const response = await fetch(`pages/${page}.html`);
 
         const data = await response.text();
-        console.log(data);
+        //console.log(data);
 
         content.innerHTML = data;
 
@@ -52,6 +52,10 @@ async function loadPage(page) {
 
         if(page === 'umkm'){
             initUmkm();
+        }
+
+        if(page === 'stiker'){
+            initStiker();
         }
 
     } catch (error) {

@@ -1,0 +1,120 @@
+<div class="stiker">
+    <!-- SEARCH -->
+    <div class="search-bar">
+        <div class="search-box">
+            <span class="material-symbols-sharp">search</span>
+            <label>
+                <input type="text" id="search-stiker" placeholder="Cari Data Stiker">
+            </label>
+        </div>
+        <button class="add-btn" id="tambah-stiker-btn">
+            <span class="material-symbols-sharp">add</span>
+            Tambah Stiker
+        </button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+        <div class="tabel-card">
+            <table class="stiker-tbl">
+                <thead>
+                    <tr>
+                        <th onclick="sortTableStiker('kodeStiker')">Kode Stiker</th>
+                        <th onclick="sortTableStiker('namaUsaha')">Nama Usaha</th>
+                        <th onclick="sortTableStiker('namaStiker')">Nama Stiker</th>
+                        <th onclick="sortTableStiker('ukuran')">Ukuran</th>
+                        <th onclick="sortTableStiker('status')">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="stiker-tbl-body"></tbody>
+            </table>
+        </div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <!--POPUP HAPUS-->
+    <div id="popup-hapus-stiker" class="popup">
+        <div class="popup-content-hapus">
+            <h2>Konfirmasi</h2>
+            <p>Yakin ingin menghapus pengguna?</p>
+            <div class="popup-actions">
+                <button id="hapus-stiker-btn">Hapus</button>
+                <button id="batal-hapus-stiker">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP UMKM -->
+    <div class="popup" id="popup-stiker">
+        <div class="popup-content-stiker">
+            <form id="form-stiker">
+                <h2>Data Stiker</h2>
+                <div class="form-stiker-grid">
+                    <div class="form-stiker-kiri">
+                        <h3>Data Usaha</h3>
+                        <div class="form-group">
+                            <label for="stiker-nama-usaha">Nama Usaha</label>
+                            <input type="text" id="stiker-nama-usaha" placeholder="Masukkan nama usaha">
+                        </div>
+                        <div class="form-group">
+                            <label for="stiker-nama-pemilik">Nama Pemilik</label>
+                            <input type="text" id="stiker-nama-pemilik" placeholder="Masukkan nama usaha">
+                        </div>
+                        <div class="form-group">
+                            <label for="stiker-telp">Nomor Telepon</label>
+                            <input type="text" id="stiker-telp" placeholder="Masukkan nama usaha">
+                        </div>
+                        <button type="button" id="stiker-umkm-btn">Cari UMKM</button>
+                    </div>
+                    <div class="form-stiker-tengah">
+                        <h3>Data Stiker</h3>
+                        <div class="form-group">
+                            <label for="stiker-kode">Kode Stiker</label>
+                            <input type="text" id="stiker-kode" placeholder="Kode Stiker">
+                        </div>
+                        <div class="form-group">
+                            <label for="stiker-nama">Nama Stiker</label>
+                            <input type="text" id="stiker-nama" placeholder="Masukkan nama Stiker">
+                        </div>
+                        <div class="form-group dua-input">
+
+                                <!-- PANJANG -->
+                                <div class="input-wrapper">
+                                    <label for="stiker-panjang">Panjang Stiker</label>
+
+                                    <div class="input-custom">
+                                        <span class="garis-horizontal"></span>
+                                        <input type="text" id="stiker-panjang" placeholder="Panjang stiker">
+                                        <h4>cm</h4>
+                                    </div>
+                                </div>
+
+                                <!-- LEBAR -->
+                                <div class="input-wrapper">
+                                    <label for="stiker-lebar">Lebar Stiker</label>
+
+                                    <div class="input-custom">
+                                        <span class="garis-vertikal"></span>
+                                        <input type="text" id="stiker-lebar" placeholder="Lebar stiker">
+                                        <h4>cm</h4>
+                                    </div>
+                                </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="stiker-catatan">Catatan</label>
+                            <input type="text" id="stiker-catatan" placeholder="masukkan catatan Stiker">
+                        </div>
+                    </div>
+                    <div class="form-stiker-kanan">
+                        <h3>Desain Stiker</h3>
+                    </div>
+                </div>
+                <div class="popup-actions">
+                    <button type="submit" id="simpan-umkm-btn">Simpan</button>
+                    <button type="button" id="batal-edit-stiker">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

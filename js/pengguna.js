@@ -19,37 +19,91 @@ let dataPengguna = [
 ];
 
 let isEditMode = false;
+let cariKey = ""
 let selectedIndex
 
 // mengisi table
 function loadTablePengguna() {
 
-    // SORT BERDASARKAN LEVEL
-    dataPengguna.sort((a, b) =>
-        a.level.localeCompare(b.level)
-    );
+    let filterPengguna = dataPengguna.filter(item => {
 
-    const tbody = document.getElementById('pengguna-tbl-body');
+        const semuaData = Object.values(item)
+            .join(" ")
+            .toLowerCase();
+
+        return semuaData.includes(cariKey);
+    });
+
+    // SORT
+    filterPengguna.sort((a, b) => {
+
+        let valueA = a[sortField];
+        let valueB = b[sortField];
+
+        // boolean
+        if(typeof valueA === "boolean"){
+
+            valueA = valueA ? 1 : 0;
+            valueB = valueB ? 1 : 0;
+        }
+
+        // string
+        if(typeof valueA === "string"){
+
+            const result = valueA.localeCompare(valueB);
+
+            return sortDirectionStiker === "asc"
+                ? result
+                : -result;
+        }
+
+        // number
+        const result = valueA - valueB;
+
+        return sortDirectionStiker === "asc"
+            ? result
+            : -result;
+    });
+
+    const tbody =
+        document.getElementById('pengguna-tbl-body');
+
     tbody.innerHTML = '';
 
-    //mengisi field edit pada table
-    dataPengguna.forEach((item, index) => {
+    // render hasil filter
+    filterPengguna.forEach((item, index) => {
+
         tbody.innerHTML += `
             <tr>
                 <td>${item.nama}</td>
                 <td>${item.akun}</td>
                 <td>${item.level}</td>
                 <td>${item.status ? 'Aktif' : 'Non-Aktif'}</td>
+
                 <td>
                     <div class="actions">
-                        <button onclick="showPopupEdit(${index})">
-                            <span class="material-symbols-sharp">edit</span>
+
+                        <button
+                            onclick="showPopupEdit(${index})">
+
+                            <span class="material-symbols-sharp">
+                                edit
+                            </span>
+
                         </button>
-                        <button onclick="showPopupHapus(${index})">
-                            <span class="material-symbols-sharp">delete</span>
+
+                        <button
+                            onclick="showPopupHapus(${index})">
+
+                            <span class="material-symbols-sharp">
+                                delete
+                            </span>
+
                         </button>
+
                     </div>
                 </td>
+
             </tr>
         `;
     });
@@ -129,6 +183,10 @@ function initPopupPengguna() {
     // custom select
     selectBox.addEventListener("click", toggleCustomSelect); // toggle dropdown
     document.addEventListener("click", closeCustomSelectOutside); // klik luar custom select
+
+    // cari pengguna
+    const cariInput = document.getElementById("cari-pengguna");
+    cariInput.addEventListener("input", cariPengguna)
 
 }
 
@@ -320,4 +378,13 @@ function closeCustomSelectOutside(e) {
         optionsList.style.display = "none";
         customSelect.classList.remove("active");
     }
+}
+
+// cari pengguna
+function cariPengguna() {
+    const input = document.getElementById("cari-pengguna");
+
+    cariKey = input.value.toLowerCase().trim();
+
+    loadTablePengguna();
 }

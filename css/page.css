@@ -18,7 +18,7 @@
     padding: 10px 15px;
     border-radius: var(--border-radius-2);
 
-    box-shadow: 0 1rem 2rem var(--color-light);;
+    box-shadow: var(--box-shadow-button);
     transition: all 300ms ease;
 }
 .search-box:hover {
@@ -36,7 +36,8 @@
 
 /* ----------- TABLE ----------- */
 .pengguna .table-container,
-.umkm .table-container {
+.umkm .table-container,
+.stiker .table-container {
     height: 82vh;
     background: var(--color-white) ;
     padding: var(--card-padding);
@@ -44,6 +45,11 @@
     border-radius: var(--card-border-radius);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
+}
+
+.stiker .tabel-card,
+.umkm .tabel-card {
+    height: 73vh;
 }
 
 .pengguna .table-container:hover,
@@ -61,6 +67,12 @@ table tbody td{
     border-bottom: 1px solid var(--color-light);
     color: var(--color-dark-variant);
     text-align: center;
+    transition: all 0.2s ease;
+}
+
+table tbody tr:hover td{
+    color: var(--color-primary);
+    transform: translateX(6px);
 }
 
 /* ----------- BUTTON ----------- */
@@ -150,4 +162,114 @@ button:hover > span{
     100%{
         transform: translateX(0);
     }
+}
+
+
+/* PAGINATION */
+#pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 0.5rem;
+}
+
+/* BUTTON */
+#pagination button{
+    min-width: 40px;
+    height: 40px;
+
+    border: 1px solid #dcdcdc;
+    outline: none;
+
+    cursor: pointer;
+
+    border-radius: 10px;
+
+    background: var(--color-white);
+    color: var(--color-dark-variant);
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.2s ease;
+
+    box-shadow: var(--box-shadow-button);
+}
+
+/* HOVER */
+#pagination button:hover{
+    background: var(--color-primary);
+    color: var(--color-white);
+    box-shadow: none;
+
+    transform: translateY(-2px);
+}
+
+/* ACTIVE PAGE */
+#pagination button.active{
+    background: var(--color-primary);
+    color: var(--color-white);
+
+    font-weight: 600;
+}
+
+/* DISABLED */
+#pagination button:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+/* PREV NEXT */
+#pagination button:first-child,
+#pagination button:last-child{
+    padding: 0 18px;
+    width: auto;
+}
+
+/* MOBILE */
+@media (max-width: 600px){
+
+    #pagination{
+        gap: 6px;
+    }
+
+    #pagination button{
+        min-width: 35px;
+        height: 35px;
+
+        font-size: 13px;
+    }
+}
+
+thead th{
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+}
+
+thead th:hover{
+    color: var(--color-primary);
+}
+
+/* ----------------- POPUP ----------------- */
+.popup{
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,0.5);
+
+    z-index: 1000;
+}
+
+.popup.active{
+    display: flex;
 }

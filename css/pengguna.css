@@ -22,23 +22,6 @@
     font-size: 1.1rem;
 }
 
-/*POPUP*/
-.popup{
-    position: fixed;
-    inset: 0;
-
-    display: none;
-    justify-content: center;
-    align-items: center;
-
-    background: rgba(0,0,0,0.5);
-
-    z-index: 1000;
-}
-
-.popup.active{
-    display: flex;
-}
 
 .popup-content-hapus,
 .popup-content-edit{

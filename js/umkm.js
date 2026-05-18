@@ -79,7 +79,7 @@ let dataUMKM = [
         sosialMedia: "@mainanceria",
         status: false,
         tanggalRegistrasi: "19-07-2022"
-    }/*,
+    },
     {
         id: "6",
         namaUsaha: "Laundry Bersih",
@@ -479,10 +479,11 @@ let dataUMKM = [
         sosialMedia: "@bungaflorist",
         status: true,
         tanggalRegistrasi: "30-01-2023"
-    }*/
+    }
 ];
 
 let currentPage = 1;
+let searchKeyword = "";
 let openedDetailId = null;
 const rowsPerPage = 13;
 
@@ -514,6 +515,11 @@ function initUmkm() {
     batalHapusBtn?.addEventListener('click',() => closePopup("popup-hapus-umkm"));
     konfirmasiHapusBtn?.addEventListener('click', hapusUmkm);
     batalEditBtn?.addEventListener('click',() => closePopup("popup-edit-umkm"));
+
+    const searchInput = document.getElementById("search-umkm");
+
+    searchInput?.addEventListener("input", cariUmkm);
+    document.addEventListener("click", closeDetailOutside);
 }
 
 // Bersih
@@ -551,7 +557,17 @@ function bersih(){
 // LOAD TABLE
 function loadTableUMKM() {
 
-    dataUMKM.sort((a, b) => {
+    let filteredData = dataUMKM.filter(item => {
+
+        // gabungkan semua value object jadi 1 text
+        const semuaData = Object.values(item)
+            .join(" ")
+            .toLowerCase();
+
+        return semuaData.includes(searchKeyword);
+    });
+
+    filteredData.sort((a, b) => {
 
         let valueA = a[sortField];
         let valueB = b[sortField];
@@ -568,13 +584,17 @@ function loadTableUMKM() {
 
             const result = valueA.localeCompare(valueB);
 
-            return sortDirection === "asc"? result: -result;
+            return sortDirection === "asc"
+                ? result
+                : -result;
         }
 
         // number
         const result = valueA - valueB;
 
-        return sortDirection === "asc"? result: -result;
+        return sortDirection === "asc"
+            ? result
+            : -result;
     });
 
     const tbody = document.getElementById("umkm-tbl-body");
@@ -586,7 +606,7 @@ function loadTableUMKM() {
 
     const end = start + rowsPerPage;
 
-    const paginatedData = dataUMKM.slice(start, end);
+    const paginatedData = filteredData.slice(start, end);
 
     paginatedData.forEach((item) => {
 
@@ -682,8 +702,17 @@ function loadPagination(){
 
     pagination.innerHTML = '';
 
+    const filteredData = dataUMKM.filter(item => {
+
+        const semuaData = Object.values(item)
+            .join(" ")
+            .toLowerCase();
+
+        return semuaData.includes(searchKeyword);
+    });
+
     const totalPages =
-        Math.ceil(dataUMKM.length / rowsPerPage);
+        Math.ceil(filteredData.length / rowsPerPage);
 
     // PREV
     pagination.innerHTML += `
@@ -727,8 +756,17 @@ function loadPagination(){
 // CHANGE PAGE
 function changePage(page){
 
+    const filteredData = dataUMKM.filter(item => {
+
+        const semuaData = Object.values(item)
+            .join(" ")
+            .toLowerCase();
+
+        return semuaData.includes(searchKeyword);
+    });
+
     const totalPages =
-        Math.ceil(dataUMKM.length / rowsPerPage);
+        Math.ceil(filteredData.length / rowsPerPage);
 
     if(page < 1 || page > totalPages){
         return;
@@ -772,6 +810,27 @@ function toggleDetail(id){
         }
 
     }, 50);
+}
+function closeDetailOutside(e){
+
+    // cek apakah ada detail terbuka
+    if(!openedDetailId) return;
+
+    // row UMKM
+    const clickedRow =
+        e.target.closest(".umkm-row");
+
+    // detail UMKM
+    const clickedDetail =
+        e.target.closest(".detail-row");
+
+    // jika klik di luar row & detail
+    if(!clickedRow && !clickedDetail){
+
+        openedDetailId = null;
+
+        loadTableUMKM();
+    }
 }
 
 // Popup UMKM
@@ -998,4 +1057,21 @@ function resetSelectUmkm() {
 
     optionsList.style.display = "none";
     customSelect.classList.remove("active");
+}
+
+// Cari UMKM
+function cariUmkm(){
+
+    const input =
+        document.getElementById("search-umkm");
+
+    searchKeyword = input.value
+        .toLowerCase()
+        .trim();
+
+    currentPage = 1;
+
+    openedDetailId = null;
+
+    loadTableUMKM();
 }
