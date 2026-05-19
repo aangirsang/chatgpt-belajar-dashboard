@@ -54,15 +54,24 @@
                         <h3>Data Usaha</h3>
                         <div class="form-group">
                             <label for="stiker-nama-usaha">Nama Usaha</label>
-                            <input type="text" id="stiker-nama-usaha" placeholder="Masukkan nama usaha" readonly>
+                            <input type="text" id="stiker-nama-usaha" placeholder="Nama usaha" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-nama-pemilik">Nama Pemilik</label>
-                            <input type="text" id="stiker-nama-pemilik" placeholder="Masukkan nama usaha" readonly>
+                            <input type="text" id="stiker-nama-pemilik" placeholder="Nama pemilik" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-telp">Nomor Telepon</label>
-                            <input type="text" id="stiker-telp" placeholder="Masukkan nama usaha" readonly>
+                            <input type="text" id="stiker-telp" placeholder="Nomor Telepon" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="stiker-alamat">Alamat</label>
+
+                            <textarea
+                                    id="stiker-alamat"
+                                    rows="4"
+                                    placeholder="Alamat" readonly>
+                            </textarea>
                         </div>
                         <button type="button" id="stiker-umkm-btn">Cari UMKM</button>
                     </div>
@@ -101,9 +110,36 @@
                                 </div>
 
                         </div>
+                        <div class="form-group-radio">
+                            <label>Status</label>
+                            <div class="radio-group" id="group-status-stiker">
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status-stiker"
+                                            value="true"
+                                    >
+                                    <span>Aktif</span>
+                                </label>
+
+                                <label class="radio-item">
+                                    <input
+                                            type="radio"
+                                            name="status-stiker"
+                                            value="false"
+                                    >
+                                    <span>Non-Aktif</span>
+                                </label>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="stiker-catatan">Catatan</label>
-                            <input type="text" id="stiker-catatan" placeholder="masukkan catatan Stiker">
+                            <label for="stiker-catatan">Deskripsi Usaha</label>
+
+                            <textarea
+                                    id="stiker-catatan"
+                                    rows="4"
+                                    placeholder="Masukkan catatan Stiker">
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-stiker-kanan">

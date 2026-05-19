@@ -335,6 +335,7 @@ function initStiker(){
     loadTableCariUmkm();
     initSearchStiker();
     cariStikerUmkm();
+    bersihStiker();
 
     document
         .getElementById("tambah-stiker-btn")
@@ -423,16 +424,13 @@ function getFilteredDataStiker(){
 
 function filterDataCariUmkm(){
 
-    return dataUMKM.filter(item => {
-
-        const semuaData = Object.values(item)
+    return dataUMKM.filter(item =>
+        item.status && // hanya status aktif yang tampil
+        Object.values(item)
             .join(" ")
-            .toLowerCase();
-
-        return semuaData.includes(
-            searchKeywordCariUmkm.toLowerCase()
-        );
-    });
+            .toLowerCase()
+            .includes(searchKeywordCariUmkm.toLowerCase())
+    );
 }
 // ========================================
 // SORT
@@ -900,6 +898,29 @@ function getUMKM(id){
     );
 }
 
+function bersihStiker(){
+    selectedStiker = null;
+    selectedCariUmkm = null;
+    const ids = [
+        'stiker-nama-usaha',
+        'stiker-nama-pemilik',
+        'stiker-alamat',
+        'stiker-telp',
+        'stiker-kode',
+        'stiker-nama',
+        'stiker-panjang',
+        'stiker-lebar',
+        'stiker-catatan'
+    ];
+
+    ids.forEach(id => {
+       document.getElementById(id).value = "";
+    });
+
+    document.querySelectorAll('input[name="status-stiker"]').forEach(input => {
+        input.checked = false;
+    });
+}
 
 // ========================================
 // SEARCH
@@ -949,6 +970,8 @@ function cariStikerUmkm(){
 // ========================================
 function showPopupStiker(id = null){
 
+    bersihStiker();
+
     const popup = document.getElementById("popup-stiker");
 
     // MODE TAMBAH
@@ -977,6 +1000,7 @@ function showPopupStiker(id = null){
         document.getElementById("stiker-nama-usaha").value = selectedCariUmkm.namaUsaha;
         document.getElementById("stiker-nama-pemilik").value = selectedCariUmkm.namaPemilik;
         document.getElementById("stiker-telp").value = selectedCariUmkm.noTelp;
+        document.getElementById("stiker-alamat").value = selectedCariUmkm.alamat;
     }
 
     document.getElementById("stiker-kode").value = selectedStiker.kodeStiker;
@@ -984,6 +1008,10 @@ function showPopupStiker(id = null){
     document.getElementById("stiker-panjang").value = selectedStiker.panjang;
     document.getElementById("stiker-lebar").value = selectedStiker.lebar;
     document.getElementById("stiker-catatan").value = selectedStiker.catatan;
+
+    document.querySelector(
+        `input[name="status-stiker"][value="${selectedStiker.status}"]`
+    ).checked = true;
 
     popup.classList.add("show");
 
@@ -1005,8 +1033,7 @@ function showPopupHapusStiker(id){
 function tutupPopupStiker(popup){
 
     if(popup === "popup-stiker"){
-        selectedStiker = null;
-        selectedCariUmkm = null;
+        bersihStiker();
     }
 
     document.getElementById(popup).classList.remove("show");
@@ -1052,6 +1079,7 @@ function pilihUmkm(id){
     document.getElementById("stiker-nama-usaha").value = selectedCariUmkm.namaUsaha;
     document.getElementById("stiker-nama-pemilik").value = selectedCariUmkm.namaPemilik;
     document.getElementById("stiker-telp").value = selectedCariUmkm.noTelp;
+    document.getElementById("stiker-alamat").value = selectedCariUmkm.alamat;
 
     tutupPopupStiker("popupStikerCariUmkm");
 
@@ -1087,7 +1115,8 @@ function validasiStiker() {
         "stiker-nama",
         "stiker-panjang",
         "stiker-lebar",
-        "stiker-catatan"
+        "stiker-catatan",
+        "stiker-alamat"
     ];
 
     fields.forEach(id => {
@@ -1099,6 +1128,14 @@ function validasiStiker() {
         }
     });
 
+    // status
+    const status = document.querySelector('input[name="status-stiker"]:checked');
+
+    if (!status) {
+        tandaiInvalid(get('group-status-stiker'));
+        valid = false;
+    }
+
     return valid;
 }
 
@@ -1108,6 +1145,7 @@ function simpanStiker(e){
     if(!validasiStiker()) return;
 
     const get = id => document.getElementById(id);
+    const status = document.querySelector('input[name="status-stiker"]:checked');
 
     const stikerBaru = {
         id: isEditModeStiker ? selectedStiker.id : Date.now().toString(),
@@ -1117,7 +1155,7 @@ function simpanStiker(e){
         panjang: Number(get('stiker-panjang').value),
         lebar: Number(get('stiker-lebar').value),
         catatan: get('stiker-catatan').value.trim(),
-        status: true
+        status: status.value === 'true'
     };
 
     if (isEditModeStiker) {

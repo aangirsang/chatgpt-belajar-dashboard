@@ -84,17 +84,18 @@
 }
 
 .form-group textarea{
+    background: var(--color-white);
     width: 100%;
     padding: 0.8rem;
 
     border: var(--border-button);
     border-radius: 8px;
 
-    resize: vertical;
-
     font-family: var(--jenis-font), sans-serif;
     font-size: 14px;
     color: var(--color-dark);
+
+    resize: none;
 }
 
 .custom-select .options {
