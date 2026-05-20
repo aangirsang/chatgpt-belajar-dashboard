@@ -36,7 +36,7 @@
     <div id="popup-hapus-stiker" class="popup">
         <div class="popup-content-hapus">
             <h2>Konfirmasi</h2>
-            <p>Yakin ingin menghapus pengguna?</p>
+            <p>Yakin ingin menghapus stiker?</p>
             <div class="popup-actions">
                 <button id="hapus-stiker-btn">Hapus</button>
                 <button id="batal-hapus-stiker">Batal</button>
@@ -44,42 +44,39 @@
         </div>
     </div>
 
-    <!-- POPUP UMKM -->
+    <!-- POPUP STIKER -->
     <div class="popup" id="popup-stiker">
         <div class="popup-content-stiker">
             <form id="form-stiker">
                 <h2>Data Stiker</h2>
+                <input type="hidden" id="stiker-id">
+                <input type="hidden" id="stiker-umkm-id">
                 <div class="form-stiker-grid">
                     <div class="form-stiker-kiri">
                         <h3>Data Usaha</h3>
                         <div class="form-group">
                             <label for="stiker-nama-usaha">Nama Usaha</label>
-                            <input type="text" id="stiker-nama-usaha" placeholder="Nama usaha" readonly>
+                            <input type="text" id="stiker-nama-usaha" placeholder="Pilih UMKM" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-nama-pemilik">Nama Pemilik</label>
-                            <input type="text" id="stiker-nama-pemilik" placeholder="Nama pemilik" readonly>
+                            <input type="text" id="stiker-nama-pemilik" placeholder="Pilih UMKM" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-telp">Nomor Telepon</label>
-                            <input type="text" id="stiker-telp" placeholder="Nomor Telepon" readonly>
+                            <input type="text" id="stiker-telp" placeholder="Pilih UMKM" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-alamat">Alamat</label>
-
-                            <textarea
-                                    id="stiker-alamat"
-                                    rows="4"
-                                    placeholder="Alamat" readonly>
-                            </textarea>
+                            <textarea id="stiker-alamat" rows="4" readonly></textarea>
                         </div>
-                        <button type="button" id="stiker-umkm-btn">Cari UMKM</button>
+                        <button type="button" id="stiker-umkm-btn">Pilih UMKM</button>
                     </div>
                     <div class="form-stiker-tengah">
                         <h3>Data Stiker</h3>
                         <div class="form-group">
                             <label for="stiker-kode">Kode Stiker</label>
-                            <input type="text" id="stiker-kode" placeholder="Kode Stiker">
+                            <input type="text" id="stiker-kode" placeholder="Kode Stiker" readonly>
                         </div>
                         <div class="form-group">
                             <label for="stiker-nama">Nama Stiker</label>
@@ -87,31 +84,45 @@
                         </div>
                         <div class="form-group dua-input">
 
-                                <!-- PANJANG -->
-                                <div class="input-wrapper">
-                                    <label for="stiker-panjang">Panjang Stiker</label>
+                            <!-- PANJANG -->
+                            <div class="input-wrapper">
+                                <label for="stiker-panjang">Panjang Stiker</label>
 
-                                    <div class="input-custom">
-                                        <span class="garis-vertikal"></span>
-                                        <input type="number" id="stiker-panjang" placeholder="Panjang stiker" min="0">
-                                        <h4>cm</h4>
+                                <div class="input-custom">
+                                    <svg class="garis-vertikal" width="16" height="38" viewBox="0 0 16 38">
+                                        <line x1="8" y1="7" x2="8" y2="31" stroke="#555" stroke-width="1.8"/>
+                                        <polygon points="8,1 3,8 13,8" fill="#555"/>
+                                        <polygon points="8,37 3,30 13,30" fill="#555"/>
+                                    </svg>
+
+                                    <div class="input-satuan">
+                                        <input type="number" id="stiker-panjang" min="0" step="0.1">
+                                        <span>cm</span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- LEBAR -->
-                                <div class="input-wrapper">
-                                    <label for="stiker-lebar">Lebar Stiker</label>
+                            <!-- LEBAR -->
+                            <div class="input-wrapper">
+                                <label for="stiker-lebar">Lebar Stiker</label>
 
-                                    <div class="input-custom">
-                                        <span class="garis-horizontal"></span>
-                                        <input type="number" id="stiker-lebar" placeholder="Lebar stiker" min="0">
-                                        <h4>cm</h4>
+                                <div class="input-custom">
+                                    <svg class="garis-horizontal" width="38" height="16" viewBox="0 0 38 16">
+                                        <line x1="7" y1="8" x2="31" y2="8" stroke="#555" stroke-width="1.8"/>
+                                        <polygon points="1,8 8,3 8,13" fill="#555"/>
+                                        <polygon points="37,8 30,3 30,13" fill="#555"/>
+                                    </svg>
+
+                                    <div class="input-satuan">
+                                        <input type="number" id="stiker-lebar" min="0" step="0.1">
+                                        <span>cm</span>
                                     </div>
                                 </div>
+                            </div>
 
                         </div>
                         <div class="form-group-radio">
-                            <label>Status</label>
+                            <label>Status Stiker</label>
                             <div class="radio-group" id="group-status-stiker">
                                 <label class="radio-item">
                                     <input
@@ -134,26 +145,65 @@
                         </div>
                         <div class="form-group">
                             <label for="stiker-catatan">Deskripsi Usaha</label>
-
-                            <textarea
-                                    id="stiker-catatan"
-                                    rows="4"
-                                    placeholder="Masukkan catatan Stiker">
-                            </textarea>
+                            <textarea id="stiker-catatan" rows="4" placeholder="Masukkan catatan Stiker"></textarea>
                         </div>
                     </div>
                     <div class="form-stiker-kanan">
                         <h3>Desain Stiker</h3>
+
+                        <div class="desain-list">
+
+
+                            <!-- GAMBAR 1 -->
+                            <div class="desain-item">
+                                <button type="button" class="menu-btn" onclick="toggleMenu(this,event)">
+                                    <span class="material-symbols-sharp">more_vert</span>
+                                </button>
+
+                                <div class="dropdown-menu">
+                                    <div onclick="pilihGambar(1)">Pilih Gambar</div>
+                                    <div onclick="hapusGambar(1)">Hapus Gambar</div>
+                                    <div onclick="lihatGambar(1)">Lihat Gambar</div>
+                                </div>
+
+                                <img id="preview-gambar-1" class="preview-img" src="">
+                            </div>
+
+                            <!-- GAMBAR 2 -->
+                            <div class="desain-item">
+                                <button type="button" class="menu-btn" onclick="toggleMenu(this,event)">
+                                    <span class="material-symbols-sharp">more_vert</span>
+                                </button>
+
+                                <div class="dropdown-menu">
+                                    <div onclick="pilihGambar(2)">Pilih Gambar</div>
+                                    <div onclick="hapusGambar(2)">Hapus Gambar</div>
+                                    <div onclick="lihatGambar(2)">Lihat Gambar</div>
+                                </div>
+
+                                <img id="preview-gambar-2" class="preview-img" src="">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="popup-actions">
                     <button type="submit" id="simpan-stiker-btn">Simpan</button>
                     <button type="button" id="batal-edit-stiker">Batal</button>
                 </div>
+                <input type="file" id="upload-gambar-stiker" accept="image/*" hidden>
             </form>
         </div>
     </div>
 
+    <!-- POPUP LIHAT GAMBAR -->
+    <div id="popup-lihat-gambar" class="popup">
+        <button type="button" onclick="tutupPopupStiker('popup-lihat-gambar')">
+            <span class="material-symbols-sharp">close</span>
+        </button>
+        <div class="popup-image-view">
+            <img id="img-fullscreen" src="" alt="Preview">
+        </div>
+    </div>
     <!-- POPUP CARI UMKM -->
     <div class="popup" id="popupStikerCariUmkm">
         <div class="popup-content-stiker">
