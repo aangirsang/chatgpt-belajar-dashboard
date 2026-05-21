@@ -1,0 +1,43 @@
+<div class="orderan">
+    <!-- SEARCH -->
+    <div class="search-bar">
+        <div class="search-box">
+            <span class="material-symbols-sharp">search</span>
+            <label>
+                <input type="text" id="search-stiker" placeholder="Cari Data Orderan">
+            </label>
+        </div>
+        <!-- RANGE TANGGAL -->
+        <div class="date-range-box">
+            <label for="tanggal-awal">Dari</label>
+            <input type="date" id="tanggal-awal">
+
+            <span class="separator">-</span>
+
+            <label for="tanggal-akhir">Sampai</label>
+            <input type="date" id="tanggal-akhir">
+        </div>
+        <button class="add-btn" id="tambah-stiker-btn">
+            <span class="material-symbols-sharp">add</span>
+            Tambah Stiker
+        </button>
+    </div>
+    <!-- TABLE -->
+    <div class="table-container">
+        <div class="tabel-card">
+            <table class="orderan-tbl">
+                <thead>
+                <tr>
+                    <th onclick="sortTableOrderan('faktur')">Faktur</th>
+                    <th onclick="sortTableOrderan('tanggalOrderan')">Tanggal</th>
+                    <th onclick="sortTableOrderan('namaUsaha')">Nama Usaha</th>
+                    <th onclick="sortTableOrderan('totalStiker')">Total Stiker</th>
+                </tr>
+                </thead>
+                <tbody id="orderan-tbl-body"></tbody>
+            </table>
+        </div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+</div>

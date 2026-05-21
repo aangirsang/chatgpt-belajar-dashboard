@@ -12,6 +12,7 @@ async function loadPage(page) {
         pengguna: 'Data Pengguna',
         'master-data': 'Master Data Aplikasi',
         'umkm': 'Anggota UMKM',
+        'orderan': 'Data Orderan',
         laporan: 'Laporan Penjualan'
     };
 
@@ -56,6 +57,9 @@ async function loadPage(page) {
 
         if(page === 'stiker'){
             initStiker();
+        }
+        if(page === 'orderan'){
+            initOrderan();
         }
 
     } catch (error) {

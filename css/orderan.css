@@ -1,0 +1,25 @@
+.orderan .tabel-card{
+    height: 70vh;
+
+
+    /* HANYA SCROLL ATAS BAWAH */
+    overflow-y: auto;
+
+    /* MATIKAN SCROLL KANAN KIRI */
+    overflow-x: hidden;
+}
+
+.orderan .tabel-card thead th{
+    position: sticky;
+    top: 0;
+
+    background: var(--color-white);
+    z-index: 2;
+}
+
+/* TABLE FULL */
+.orderan .tabel-card table{
+    width: 100%;
+    border-collapse: collapse;
+}
+

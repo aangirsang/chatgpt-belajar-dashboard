@@ -6,6 +6,7 @@
 
     margin-bottom: 20px;
 
+    flex-wrap: wrap;
 }
 
 .search-box {
@@ -15,13 +16,15 @@
     display: flex;
     align-items: center;
 
+
     padding: 10px 15px;
     border-radius: var(--border-radius-2);
 
     box-shadow: var(--box-shadow-button);
     transition: all 300ms ease;
 }
-.search-box:hover {
+.search-box:hover,
+.date-range-box:hover {
     box-shadow: none;
 }
 
@@ -34,10 +37,39 @@
     width: 15rem;
 }
 
+.date-range-box{
+
+    border: var(--border-button);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    background: var(--color-white-input);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-2);
+    box-shadow: var(--box-shadow-button);
+    transition: all 300ms ease;
+}
+
+.date-range-box input{
+    border: none;
+    outline: none;
+    background: transparent;
+
+    font-family: inherit;
+    color: var(--color-dark-variant);
+}
+
+.separator{
+    font-weight: bold;
+    opacity: .6;
+}
+
 /* ----------- TABLE ----------- */
 .pengguna .table-container,
 .umkm .table-container,
-.stiker .table-container {
+.stiker .table-container,
+.orderan .table-container {
     height: 82vh;
     background: var(--color-white) ;
     padding: var(--card-padding);

@@ -1,22 +1,3 @@
-// Data Pengguna
-let dataPengguna = [
-    {
-        id: "1",
-        nama: "Andri Saiful Girsang",
-        akun: "andri",
-        level: "Administrator",
-        status: true,
-        kataSandi: "password"
-    },
-    {
-        id: "2",
-        nama: "Haditama Yahya Girsang",
-        akun: "hadi",
-        level: "User",
-        status: true,
-        kataSandi: "password"
-    }
-];
 
 let isEditModePengguna = false;
 let cariKey = ""

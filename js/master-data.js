@@ -1,31 +1,3 @@
-let dataLevel = [
-    { id: "admin", level: "Administrator" },
-    { id: "user", level: "User" },
-    { id: "umkm", level: "UMKM" },
-    { id: "guest", level: "Guest" }
-];
-
-let dataKategori = [
-    { id: "1", kategori: "Dekorasi" },
-    { id: "2", kategori: "Kuliner" },
-    { id: "3", kategori: "Fashion" },
-    { id: "4", kategori: "Otomotif" },
-    { id: "5", kategori: "Frozen Food" },
-    { id: "6", kategori: "Furniture" },
-    { id: "7", kategori: "Jasa" },
-    { id: "8", kategori: "Kecantikan" },
-    { id: "9", kategori: "Kue" },
-    { id: "10", kategori: "Kuliner" },
-    { id: "11", kategori: "Mainan" },
-    { id: "12", kategori: "Makanan" },
-    { id: "13", kategori: "Makanan dan Minuman" },
-    { id: "14", kategori: "Makanan Ringan" },
-    { id: "15", kategori: "Minuman" },
-    { id: "16", kategori: "Percetakan" },
-    { id: "17", kategori: "Perikanan" },
-    { id: "18", kategori: "Pertanian" },
-    { id: "19", kategori: "Retail" }
-];
 
 let selectedDeleteIndex = null;
 let selectedDeleteType = null;
