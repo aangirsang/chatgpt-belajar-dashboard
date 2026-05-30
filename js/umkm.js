@@ -1,4 +1,3 @@
-// Data UMKM
 
 let currentPage = 1;
 let searchKeywordUmkm = "";
@@ -136,22 +135,24 @@ function loadTableUMKM() {
         
         <!-- ROW -->
         <tr class="umkm-row"
-            onclick="toggleDetail('${item.id}')">
+            onclick="toggleDetail(${item.id})">
 
             <td>${item.namaUsaha}</td>
             <td>${item.namaPemilik}</td>
             <td>${item.noTelp}</td>
             <td>${item.alamat}</td>
-            <td>${item.kategori}</td>
+            <td>${
+                dataKategori.find(k => k.id === item.kategoriId)?.kategori || "-"
+            }</td>
             <td>${item.status ? 'Aktif' : 'Non-Aktif'}</td>
 
             <td>
                 <div class="actions">
-                    <button onclick="event.stopPropagation(); showPopupEditUMKM('${item.id}')">
+                    <button onclick="event.stopPropagation(); showPopupEditUMKM(${item.id})">
                         <span class="material-symbols-sharp">edit</span>
                     </button>
 
-                    <button onclick="event.stopPropagation(); showPopupHapus('${item.id}')">
+                    <button onclick="event.stopPropagation(); showPopupHapus(${item.id})">
                         <span class="material-symbols-sharp">delete</span>
                     </button>
                 </div>
@@ -162,7 +163,7 @@ function loadTableUMKM() {
 
         <!-- DETAIL -->
         <tr class="detail-row ${isOpened ? 'show' : ''}">
-            <td colspan="6">
+            <td colspan="7">
                 <div class="detail-content">
                     <table class="detail-horizontal-table">
                         <thead>
@@ -224,10 +225,12 @@ function loadPaginationUmkm(){
 
     const filteredData = dataUMKM.filter(item => {
 
-        const semuaData = Object.values(item)
-            .join(" ")
-            .toLowerCase();
+        const namaKategori =
+            dataKategori.find(k => k.id === item.kategoriId)?.kategori || "";
 
+        const semuaData = (
+            Object.values(item).join(" ") + " " + namaKategori
+        ).toLowerCase();
         return semuaData.includes(searchKeywordUmkm);
     });
 
@@ -278,9 +281,12 @@ function changePage(page){
 
     const filteredData = dataUMKM.filter(item => {
 
-        const semuaData = Object.values(item)
-            .join(" ")
-            .toLowerCase();
+        const namaKategori =
+            dataKategori.find(k => k.id === item.kategoriId)?.kategori || "";
+
+        const semuaData = (
+            Object.values(item).join(" ") + " " + namaKategori
+        ).toLowerCase();
 
         return semuaData.includes(searchKeywordUmkm);
     });
@@ -364,13 +370,19 @@ function showPopupTambahUMKM() {
 function showPopupEditUMKM(id){
 
     isEditModeUmkm = true;
-    selectedUmkm = dataUMKM.findIndex(item => item.id === id);
+    selectedUmkm = dataUMKM.findIndex(
+        item => Number(item.id) === Number(id)
+    );
 
     const umkm = dataUMKM[selectedUmkm];
-    const kategori = dataKategori.find(k => k.kategori === umkm.kategori);
+    if (!umkm) return;
+
+    const kategori = dataKategori.find(k => k.id === umkm.kategoriId);
 
     document.getElementById('umkm-nama-usaha').value = umkm.namaUsaha;
-    document.getElementById('selectedText').textContent = umkm.kategori;
+    document.getElementById('selectedText').textContent =
+        kategori ? kategori.kategori : "Pilih Kategori Usaha";
+
     document.getElementById('selectedValueUmkmKategori').value = kategori ? kategori.id : "";
     document.getElementById('umkm-deskripsi-usaha').value = umkm.deskripsi;
     document.getElementById('umkm-nama-pemilik').value = umkm.namaPemilik;
@@ -473,12 +485,16 @@ function simpanUmkm(e) {
 
     const status = document.querySelector('input[name="status"]:checked');
     const jenisKelamin = document.querySelector('input[name="jenis-kelamin"]:checked');
-    const kategori = get('selectedText').textContent.trim();
+    const kategoriId = Number(
+        get('selectedValueUmkmKategori').value
+    );
 
     const umkmBaru = {
-        id: isEditModeUmkm ? dataUMKM[selectedUmkm].id : Date.now().toString(),
+        id: isEditModeUmkm
+            ? dataUMKM[selectedUmkm].id
+            : Date.now(),
         namaUsaha: get('umkm-nama-usaha').value.trim(),
-        kategori,
+        kategoriId,
         deskripsi: get('umkm-deskripsi-usaha').value.trim(),
         namaPemilik: get('umkm-nama-pemilik').value.trim(),
         noKtp: get('umkm-ktp').value.trim(),

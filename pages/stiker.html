@@ -156,7 +156,10 @@
 
                             <!-- GAMBAR 1 -->
                             <div class="desain-item">
-                                <button type="button" class="menu-btn" onclick="toggleMenu(this,event)">
+
+                                <button type="button"
+                                        class="menu-btn"
+                                        onclick="toggleMenu(this,event)">
                                     <span class="material-symbols-sharp">more_vert</span>
                                 </button>
 
@@ -166,12 +169,27 @@
                                     <div onclick="lihatGambar(1)">Lihat Gambar</div>
                                 </div>
 
-                                <img id="preview-gambar-1" class="preview-img" src="" alt="gambar">
+                                <!-- PREVIEW -->
+                                <div class="preview-container"
+                                     id="preview-container-1">
+
+                                    <div class="loading-spinner"></div>
+
+                                    <img
+                                            id="preview-gambar-1"
+                                            class="preview-img"
+                                            src=""
+                                            alt="gambar"
+                                    >
+                                </div>
                             </div>
 
                             <!-- GAMBAR 2 -->
                             <div class="desain-item">
-                                <button type="button" class="menu-btn" onclick="toggleMenu(this,event)">
+
+                                <button type="button"
+                                        class="menu-btn"
+                                        onclick="toggleMenu(this,event)">
                                     <span class="material-symbols-sharp">more_vert</span>
                                 </button>
 
@@ -181,7 +199,19 @@
                                     <div onclick="lihatGambar(2)">Lihat Gambar</div>
                                 </div>
 
-                                <img id="preview-gambar-2" class="preview-img" src="" alt="gambar">
+                                <!-- PREVIEW -->
+                                <div class="preview-container"
+                                     id="preview-container-2">
+
+                                    <div class="loading-spinner"></div>
+
+                                    <img
+                                            id="preview-gambar-2"
+                                            class="preview-img"
+                                            src=""
+                                            alt="gambar"
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>

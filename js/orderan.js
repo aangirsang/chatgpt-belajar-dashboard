@@ -6,15 +6,43 @@ let sortOrderan = "faktur";
 let sortDirectionOrderan = "asc";
 
 let selectedOrderan = null;
+let selectedOrderanUmkm = null;
+let selectedOrderanStiker = null;
 let searchKeywordOrderan = "";
 let isEditModeOrderan = false;
+
+let tanggalAwalOrderan = "";
+let tanggalAkhirOrderan = "";
 
 // ========================================
 // INIT
 // ========================================
 
 function initOrderan(){
+    tanggalAwalOrderan = "";
+    tanggalAkhirOrderan = "";
+
     loadTableOrderan();
+
+    document.removeEventListener("click", closeDetailOrderanOutside);
+    document.addEventListener("click", closeDetailOrderanOutside);
+
+    // SEARCH
+    document
+        .getElementById("search-orderan")
+        ?.addEventListener("input", cariOrderan);
+
+    // RANGE TANGGAL
+    document
+        .getElementById("tanggal-awal")
+        ?.addEventListener("change", filterTanggalOrderan);
+
+    document
+        .getElementById("tanggal-akhir")
+        ?.addEventListener("change", filterTanggalOrderan);
+
+    getEl("tambah-orderan-btn").addEventListener("click", () => showPopupOrderan())
+    getEl("batal-edit-orderan").addEventListener("click", () => tutupPopupOrderan("popup-orderan"));
 }
 
 // ========================================
@@ -45,6 +73,7 @@ function getFilteredDataOrderan(){
 
         const umkm = getUMKM(item.umkmId);
 
+        // SEARCH TEXT
         const semuaData = [
             ...Object.values(item),
             ...(umkm ? Object.values(umkm) : [])
@@ -52,10 +81,85 @@ function getFilteredDataOrderan(){
             .join(" ")
             .toLowerCase();
 
-        return semuaData.includes(
-            searchKeywordOrderan.toLowerCase()
-        );
+        const cocokKeyword =
+            semuaData.includes(
+                searchKeywordOrderan.toLowerCase()
+            );
+
+        // ========================================
+        // FILTER TANGGAL
+        // ========================================
+
+        // format item: dd-mm-yyyy
+        const [hari, bulan, tahun] =
+            item.tanggalOrderan.split("-");
+
+        const tanggalItem =
+            new Date(`${tahun}-${bulan}-${hari}`);
+
+        let cocokTanggal = true;
+
+        // hanya tanggal awal
+        if(tanggalAwalOrderan && !tanggalAkhirOrderan){
+
+            cocokTanggal =
+                tanggalItem.getTime() ===
+                new Date(tanggalAwalOrderan).getTime();
+        }
+
+        // hanya tanggal akhir
+        else if(!tanggalAwalOrderan && tanggalAkhirOrderan){
+
+            cocokTanggal =
+                tanggalItem.getTime() ===
+                new Date(tanggalAkhirOrderan).getTime();
+        }
+
+        // range tanggal
+        else if(tanggalAwalOrderan && tanggalAkhirOrderan){
+
+            const awal =
+                new Date(tanggalAwalOrderan);
+
+            const akhir =
+                new Date(tanggalAkhirOrderan);
+
+            akhir.setHours(23,59,59,999);
+
+            cocokTanggal =
+                tanggalItem >= awal &&
+                tanggalItem <= akhir;
+        }
+
+        return cocokKeyword && cocokTanggal;
     });
+}
+
+function cariOrderan(){
+
+    searchKeywordOrderan =
+        document
+            .getElementById("search-orderan")
+            .value
+            .toLowerCase()
+            .trim();
+
+    currentPageOrderan = 1;
+
+    loadTableOrderan();
+}
+
+function filterTanggalOrderan(){
+
+    tanggalAwalOrderan =
+        document.getElementById("tanggal-awal").value;
+
+    tanggalAkhirOrderan =
+        document.getElementById("tanggal-akhir").value;
+
+    currentPageOrderan = 1;
+
+    loadTableOrderan();
 }
 
 // ========================================
@@ -141,6 +245,13 @@ function toggleDetailOrderan(id){
     }, 50);
 }
 
+function closeDetailOrderanOutside(event){
+    if(event.target.closest(".orderan-row, .detail-row")) return;
+    if(openedDetailOrderan === null) return;
+
+    openedDetailOrderan = null;
+    loadTableOrderan();
+}
 // ========================================
 // CREATE ROW
 // ========================================
@@ -159,7 +270,7 @@ function createRowsOrderan(item, umkm, opened){
             stiker => stiker.id === rinci.dataStikerId
         );
 
-        totalStiker += rincian.jumlah;
+        totalStiker += rinci.jumlah;
 
         detailRows += `
             <tr>
@@ -171,7 +282,7 @@ function createRowsOrderan(item, umkm, opened){
     });
 
     return `
-        <tr class="orderan-row" onclick="toggleDetailOrderan(${item.id})">
+        <tr class="orderan-row"  onclick="event.stopPropagation(); toggleDetailOrderan(${item.id})">
             <td>${item.faktur}</td>
             <td>${item.tanggalOrderan}</td>
             <td>${umkm?.namaUsaha ?? "-"}</td>
@@ -236,4 +347,97 @@ function sortTableOrderan(field){
     }
 
     loadTableOrderan();
+}
+
+// ========================================
+// FORM
+// ========================================
+
+function bersihOrderan(){
+    selectedOrderan = null;
+    selectedOrderanUmkm = null;
+    selectedOrderanStiker = null;
+
+    [
+        "orderan-nama-usaha",
+        "orderan-nama-pemilik",
+        "orderan-instagram",
+        "orderan-kontak"
+    ].forEach(id => getEl(id).textContent = "---------");
+
+
+}
+
+// ========================================
+// POPUP
+// ========================================
+
+function showPopupOrderan(id = null){
+    const popup = getEl("popup-orderan");
+    const btnUmkm = getEl("orderan-umkm-btn");
+
+    getEl("orderan-tanggal").textContent =
+        getEl("orderan-tanggal").textContent =
+            new Date().toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+    getEl("orderan-faktur").textContent = generateFaktur();
+
+    if(id === null){
+        bersihOrderan();
+        isEditModeOrderan = false;
+
+        btnUmkm.disabled = false;
+        btnUmkm.classList.remove("btn-disabled");
+
+        popup.classList.add("show");
+        return;
+    }
+    isEditModeOrderan = true;
+    btnUmkm.disabled = true;
+    btnUmkm.classList.add("btn-disabled");
+
+    return;
+}
+
+function tutupPopupOrderan(id){
+    //if(id === "popup-stiker") bersihStiker();
+
+    getEl(id).classList.remove("show");
+    getEl(id).classList.remove("active");
+}
+function generateFaktur() {
+
+    const tahun = new Date().getFullYear().toString().slice(-2);
+
+    // Ambil semua faktur tahun ini
+    const orderanTahunIni = dataOrderan.filter(item => {
+        return item.faktur.startsWith(`RBBB-${tahun}`);
+    });
+
+    // Cari nomor terbesar
+    let nomorTerbesar = 0;
+
+    orderanTahunIni.forEach(item => {
+
+        const nomor = parseInt(
+            item.faktur.split("-")[1].slice(2)
+        );
+
+        if(nomor > nomorTerbesar){
+            nomorTerbesar = nomor;
+        }
+    });
+
+    // Nomor berikutnya
+    const nomorBaru = nomorTerbesar + 1;
+
+    // Format 0001
+    const nomorFormat = String(nomorBaru).padStart(4, "0");
+
+    return `RBBB-${tahun}${nomorFormat}`;
 }

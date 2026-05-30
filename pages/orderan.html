@@ -4,7 +4,7 @@
         <div class="search-box">
             <span class="material-symbols-sharp">search</span>
             <label>
-                <input type="text" id="search-stiker" placeholder="Cari Data Orderan">
+                <input type="text" id="search-orderan" placeholder="Cari Data Orderan">
             </label>
         </div>
         <!-- RANGE TANGGAL -->
@@ -17,9 +17,9 @@
             <label for="tanggal-akhir">Sampai</label>
             <input type="date" id="tanggal-akhir">
         </div>
-        <button class="add-btn" id="tambah-stiker-btn">
+        <button class="add-btn" id="tambah-orderan-btn">
             <span class="material-symbols-sharp">add</span>
-            Tambah Stiker
+            Tambah Orderan
         </button>
     </div>
     <!-- TABLE -->
@@ -39,5 +39,109 @@
         </div>
         <div id="pagination" class="pagination"></div>
     </div>
+    <!-- POPUP ORDERAN -->
+    <div class="popup" id="popup-orderan">
+        <div class="popup-content-orderan">
+            <form id="form-orderan">
+                <h2>Data Orderan</h2>
+                <input type="hidden" id="orderan-stiker-id">
+                <input type="hidden" id="orderan-umkm-id">
+                <input type="hidden" id="orderan-id">
+                <div class="form-orderan-grid">
+                    <div class="form-orderan-1">
+                        <div class="form-orderan-1-1">
+                            <div class="form-orderan-1-kanan">
+                                <div class="form-orderan-1-kanan-1">
+                                    <label>Nama Usaha</label>
+                                    <label>Nama Pemilik</label>
+                                    <label>Instagram</label>
+                                    <label>Kontak</label>
+                                </div>
+                                <div class="form-orderan-1-kanan-2">
+                                    <label>:</label>
+                                    <label>:</label>
+                                    <label>:</label>
+                                    <label>:</label>
+                                </div>
+                                <div class="form-orderan-1-kanan-3">
+                                    <label id="orderan-nama-usaha">Nama Usaha</label>
+                                    <label id="orderan-nama-pemilik">Nama Pemilik</label>
+                                    <label id="orderan-instagram">Instagram</label>
+                                    <label id="orderan-kontak">Kontak</label>
+                                </div>
 
+                            </div>
+                            <div class="form-orderan-1-kiri">
+                                <label id="orderan-tanggal">Tanggal Orderan</label>
+                                <label id="orderan-faktur">Faktur</label>
+                            </div>
+                        </div>
+                        <div class="form-orderan-1-2">
+                            <button type="button" id="orderan-umkm-btn">Pilih UMKM</button>
+                        </div>
+                    </div>
+                    <button type="button" id="orderan-stiker-btn">Tambah Stiker</button>
+                    <div class="orderan-table-container-stiker">
+                        <div class="orderan-tabel-card-stiker">
+                            <table class="orderan-tbl-stiker">
+                                <thead>
+                                <tr>
+                                    <th>Kode Stiker</th>
+                                    <th>Nama Stiker</th>
+                                    <th>Ukuran</th>
+                                    <th>Jumlah</th>
+                                </tr>
+                                </thead>
+                                <tbody id="orderan-tbl-stiker-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-orderan-2">
+                        <label id="orderan-total-stiker">Total Stiker</label>
+                    </div>
+                    <div class="popup-actions">
+                        <button type="submit" id="simpan-oderan-btn">Simpan</button>
+                        <button type="button" id="batal-edit-orderan">Batal</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<!--    &lt;!&ndash; POPUP CARI UMKM &ndash;&gt;-->
+<!--    <div class="popup" id="popupOrderanCariUmkm">-->
+<!--        <div class="popup-content-orderan">-->
+<!--            <form id="formOrderanCariUmkm">-->
+<!--                <h2>Data Umkm</h2>-->
+<!--                <div class="search-bar">-->
+<!--                    <div class="search-box">-->
+<!--                        <span class="material-symbols-sharp">search</span>-->
+<!--                        <label>-->
+<!--                            <input type="text" id="cariUmkm" placeholder="Cari Data Umkm">-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <button type="button" id="BatalPilihBtn">-->
+<!--                        <span class="material-symbols-sharp">close</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; TABLE &ndash;&gt;-->
+<!--                <div class="table-container-cari-umkm">-->
+<!--                    <div class="tabel-card-cari-umkm">-->
+<!--                        <table class="CariUmkmTbl">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th onclick="sortTableCariUmkm('namaUsaha')">Nama Usaha</th>-->
+<!--                                <th onclick="sortTableCariUmkm('namaPemilik')">Nama Pemilik</th>-->
+<!--                                <th onclick="sortTableCariUmkm('noTelp')">Nomor Telepon</th>-->
+<!--                                <th onclick="sortTableCariUmkm('sosialMedia')">Instagram</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody id="CariUmkmTBody"></tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                    <div id="pagination-cari-umkm" class="pagination"></div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>

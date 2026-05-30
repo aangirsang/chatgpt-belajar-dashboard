@@ -2,45 +2,6 @@
     transition: all 0.2s ease;
 }
 
-.umkm-row:hover > td{
-    color: var(--color-primary);
-    transform: translateX(6px);
-}
-.detail-row{
-    display: none;
-}
-
-.detail-row.show{
-    display: table-row;
-}
-
-.detail-content{
-    padding: 0.5rem;
-    overflow-x: auto;
-    background: transparent;
-}
-
-.detail-horizontal-table{
-    width: 100%;
-    min-width: 700px;
-
-    border-collapse: separate;
-    border-spacing: 0;
-
-    background: var(--color-white);
-
-    border: 1px solid #dcdcdc;
-    border-radius: var(--border-radius-2);
-
-    overflow: hidden;
-}
-
-.detail-horizontal-table th,
-.detail-horizontal-table td{
-    padding: 6px 10px;
-}
-
-
 /* ------- POPUP ------- */
 .popup-content-umkm {
     padding: var(--card-padding);

@@ -259,7 +259,7 @@ function renderTabelCariUmkm(data){
 
 function createRowStiker(item, umkm, opened){
     return `
-        <tr class="stiker-row" onclick="event.stopPropagation(); toggleDetailStiker('${item.id}')">
+        <tr class="stiker-row" onclick="event.stopPropagation(); toggleDetailStiker(${item.id})">
             <td>${item.kodeStiker}</td>
             <td>${umkm?.namaUsaha ?? "-"}</td>
             <td>${item.namaStiker}</td>
@@ -267,10 +267,10 @@ function createRowStiker(item, umkm, opened){
             <td>${item.status ? "Aktif" : "Non-Aktif"}</td>
             <td>
                 <div class="actions">
-                    <button onclick="event.stopPropagation(); showPopupStiker('${item.id}')">
+                    <button onclick="event.stopPropagation(); showPopupStiker(${item.id})">
                         <span class="material-symbols-sharp">edit</span>
                     </button>
-                    <button onclick="event.stopPropagation(); showPopupHapusStiker('${item.id}')">
+                    <button onclick="event.stopPropagation(); showPopupHapusStiker(${item.id})">
                         <span class="material-symbols-sharp">delete</span>
                     </button>
                 </div>
@@ -305,7 +305,7 @@ function createRowStiker(item, umkm, opened){
 function createRowCariUmkm(item){
     return `
         <tr class="${selectedCariUmkm?.id === item.id ? "selected-row" : ""}"
-            ondblclick="pilihUmkm('${item.id}')">
+            ondblclick="pilihUmkm(${item.id})">
             <td>${item.namaUsaha}</td>
             <td>${item.namaPemilik}</td>
             <td>${item.noTelp}</td>
@@ -700,23 +700,86 @@ function pilihGambar(index){
 }
 
 function handleUploadGambarStiker(e){
+
     const file = e.target.files[0];
+
     if(!file) return;
+
+    const container = getEl(
+        `preview-container-${selectedGambarIndex}`
+    );
+
+    const img = getEl(
+        `preview-gambar-${selectedGambarIndex}`
+    );
+
+    // reset state
+    container.classList.remove("loaded");
+
+    // tampil loading
+    container.classList.add("loading");
+
+    compressImage(file, function(base64){
+
+        const tempImg = new Image();
+
+        tempImg.onload = function(){
+
+            img.src = base64;
+            img.dataset.path = base64;
+
+            // selesai loading
+            container.classList.remove("loading");
+            container.classList.add("loaded");
+        };
+
+        tempImg.src = base64;
+    });
+
+    e.target.value = "";
+}
+function compressImage(file, callback){
 
     const reader = new FileReader();
 
-    reader.onload = function(ev){
-        const base64 = ev.target.result;
+    reader.onload = function(e){
 
-        const img = getEl(`preview-gambar-${selectedGambarIndex}`);
+        const img = new Image();
 
-        img.src = base64;
-        img.dataset.path = base64;
+        img.onload = function(){
+
+            const canvas = document.createElement("canvas");
+
+            const maxWidth = 1200;
+
+            let width = img.width;
+            let height = img.height;
+
+            if(width > maxWidth){
+
+                height *= maxWidth / width;
+                width = maxWidth;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            callback(
+                canvas.toDataURL(
+                    "image/jpeg",
+                    0.72
+                )
+            );
+        };
+
+        img.src = e.target.result;
     };
 
     reader.readAsDataURL(file);
-
-    e.target.value = "";
 }
 
 function hapusGambar(index){
