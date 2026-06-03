@@ -1,0 +1,36 @@
+<div class="popup" id="popup-cari-umkm">
+  <div class="popup-content-pilih-umkm">
+    <form id="form-popup-umkm">
+      <h2>Data Umkm</h2>
+      <div class="search-bar">
+        <div class="search-box">
+          <span class="material-symbols-sharp">search</span>
+          <label>
+            <input type="text" id="cari-popup-umkm" placeholder="Cari Data Umkm">
+          </label>
+        </div>
+        <button type="button" id="batal-pilih-umkm-btn">
+          <span class="material-symbols-sharp">close</span>
+        </button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-container-popup-umkm">
+        <div class="tabel-card-cari-umkm">
+          <table class="CariUmkmTbl">
+            <thead>
+            <tr>
+              <th onclick="sortTablePopupUmkm('namaUsaha')">Nama Usaha</th>
+              <th onclick="sortTablePopupUmkm('namaPemilik')">Nama Pemilik</th>
+              <th onclick="sortTablePopupUmkm('noTelp')">Nomor Telepon</th>
+              <th onclick="sortTablePopupUmkm('sosialMedia')">Instagram</th>
+            </tr>
+            </thead>
+            <tbody id="popup-umkm-tbody"></tbody>
+          </table>
+        </div>
+        <div id="pagination-popup-umkm" class="pagination"></div>
+      </div>
+    </form>
+  </div>
+</div>

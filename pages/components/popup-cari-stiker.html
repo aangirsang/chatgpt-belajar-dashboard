@@ -1,0 +1,35 @@
+<div class="popup" id="popup-cari-stiker">
+    <div class="popup-content-pilih-stiker">
+        <form id="form-popup-stiker">
+            <h2>Data Stiker</h2>
+            <div class="search-bar">
+                <div class="search-box">
+                    <span class="material-symbols-sharp">search</span>
+                    <label>
+                        <input type="text" id="cari-popup-stiker" placeholder="Cari Data Stiker">
+                    </label>
+                </div>
+                <button type="button" id="batal-pilih-stiker-btn-popup">
+                    <span class="material-symbols-sharp">close</span>
+                </button>
+            </div>
+
+            <!-- TABLE -->
+            <div class="table-container-popup-stiker">
+                <div class="tabel-card-cari-stiker">
+                    <table class="cari-stiker-tbl">
+                        <thead>
+                        <tr>
+                            <th onclick="sortTablePopupStiker('tbl-kode-stiker')">Kode Stiker</th>
+                            <th onclick="sortTablePopupStiker('tbl-nama-stiker')">Nama Stiker</th>
+                            <th onclick="sortTablePopupStiker('tbl-ukuran')">Ukuran</th>
+                        </tr>
+                        </thead>
+                        <tbody id="popup-stiker-tbody"></tbody>
+                    </table>
+                </div>
+                <div id="pagination-popup-stiker" class="pagination"></div>
+            </div>
+        </form>
+    </div>
+</div>

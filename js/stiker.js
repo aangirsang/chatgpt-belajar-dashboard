@@ -34,6 +34,10 @@ function getUMKM(id){
     return dataUMKM.find(item => item.id === id);
 }
 
+function getStiker(id){
+    return dataStiker.find(item => item.id === id);
+}
+
 function tandaiInvalid(el){
     el.classList.remove("error-validasi");
     void el.offsetWidth;
@@ -321,22 +325,97 @@ function createRowCariUmkm(item){
 
 function loadPagination(id, totalData, currentPage, rowsPerPage, callback){
     const pagination = getEl(id);
+
     pagination.innerHTML = "";
 
-    const totalPages = Math.max(1, Math.ceil(totalData / rowsPerPage));
+    const totalPages =
+        Math.max(1, Math.ceil(totalData / rowsPerPage));
+
+    const maxVisible = 3;
 
     pagination.innerHTML += `
-        <button onclick="${callback.name}(${currentPage - 1})" ${currentPage === 1 ? "disabled" : ""}>Prev</button>
+        <button
+            onclick="${callback.name}(${currentPage - 1})"
+            ${currentPage === 1 ? "disabled" : ""}
+        >
+            Prev
+        </button>
     `;
 
-    for(let i = 1; i <= totalPages; i++){
+    let startPage =
+        Math.max(
+            1,
+            currentPage - Math.floor(maxVisible / 2)
+        );
+
+    let endPage =
+        startPage + maxVisible - 1;
+
+    if(endPage > totalPages){
+        endPage = totalPages;
+        startPage =
+            Math.max(
+                1,
+                endPage - maxVisible + 1
+            );
+    }
+
+    // tombol halaman pertama
+    if(startPage > 1){
+
         pagination.innerHTML += `
-            <button class="${i === currentPage ? "active" : ""}" onclick="${callback.name}(${i})">${i}</button>
+            <button onclick="${callback.name}(1)">
+                1
+            </button>
+        `;
+
+        if(startPage > 2){
+            pagination.innerHTML += `
+                <span class="pagination-dots">
+                    ...
+                </span>
+            `;
+        }
+    }
+
+    // tombol tengah
+    for(let i = startPage; i <= endPage; i++){
+
+        pagination.innerHTML += `
+            <button
+                class="${i === currentPage ? "active" : ""}"
+                onclick="${callback.name}(${i})"
+            >
+                ${i}
+            </button>
+        `;
+    }
+
+    // tombol halaman terakhir
+    if(endPage < totalPages){
+
+        if(endPage < totalPages - 1){
+            pagination.innerHTML += `
+                <span class="pagination-dots">
+                    ...
+                </span>
+            `;
+        }
+
+        pagination.innerHTML += `
+            <button onclick="${callback.name}(${totalPages})">
+                ${totalPages}
+            </button>
         `;
     }
 
     pagination.innerHTML += `
-        <button onclick="${callback.name}(${currentPage + 1})" ${currentPage === totalPages ? "disabled" : ""}>Next</button>
+        <button
+            onclick="${callback.name}(${currentPage + 1})"
+            ${currentPage === totalPages ? "disabled" : ""}
+        >
+            Next
+        </button>
     `;
 }
 

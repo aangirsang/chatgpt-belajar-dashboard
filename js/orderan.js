@@ -1,6 +1,6 @@
 let currentPageOrderan = 1;
 let openedDetailOrderan = null;
-const rowsPerPageOrderan = 15;
+const rowsPerPageOrderan = 5;
 
 let sortOrderan = "faktur";
 let sortDirectionOrderan = "asc";
@@ -14,13 +14,16 @@ let isEditModeOrderan = false;
 let tanggalAwalOrderan = "";
 let tanggalAkhirOrderan = "";
 
+
+
 // ========================================
 // INIT
 // ========================================
 
-function initOrderan(){
+async function initOrderan(){
     tanggalAwalOrderan = "";
     tanggalAkhirOrderan = "";
+
 
     loadTableOrderan();
 
@@ -43,6 +46,45 @@ function initOrderan(){
 
     getEl("tambah-orderan-btn").addEventListener("click", () => showPopupOrderan())
     getEl("batal-edit-orderan").addEventListener("click", () => tutupPopupOrderan("popup-orderan"));
+
+    getEl("orderan-umkm-btn")
+        .addEventListener("click", async () => {
+
+            await loadPopupUmkm();
+
+            showPopupUmkm((umkm) => {
+
+                selectedOrderanUmkm = umkm;
+
+                getEl("orderan-nama-usaha").textContent =
+                    umkm.namaUsaha;
+
+                getEl("orderan-nama-pemilik").textContent =
+                    umkm.namaPemilik;
+
+                getEl("orderan-instagram").textContent =
+                    umkm.sosialMedia;
+
+                getEl("orderan-kontak").textContent =
+                    umkm.noTelp;
+
+                tampilBtnStiker(false);
+            },
+                selectedOrderanUmkm
+            );
+        });
+    getEl("orderan-stiker-btn")
+        .addEventListener("click", async () => {
+
+            await loadPopupStiker();
+
+            showPopupPilihStiker((stiker) => {
+
+                selectedOrderanStiker = stiker;
+            },
+                selectedOrderanUmkm
+            );
+        });
 }
 
 // ========================================
@@ -353,10 +395,22 @@ function sortTableOrderan(field){
 // FORM
 // ========================================
 
+function tampilBtnStiker(status) {
+    const btnStiker = getEl("orderan-stiker-btn");
+    btnStiker.disabled = status;
+    if (status === true){
+        btnStiker.classList.add("btn-disabled");
+    } else {
+        btnStiker.classList.remove("btn-disabled");
+    }
+}
+
 function bersihOrderan(){
     selectedOrderan = null;
     selectedOrderanUmkm = null;
     selectedOrderanStiker = null;
+
+    tampilBtnStiker(true);
 
     [
         "orderan-nama-usaha",
@@ -365,16 +419,6 @@ function bersihOrderan(){
         "orderan-kontak"
     ].forEach(id => getEl(id).textContent = "---------");
 
-
-}
-
-// ========================================
-// POPUP
-// ========================================
-
-function showPopupOrderan(id = null){
-    const popup = getEl("popup-orderan");
-    const btnUmkm = getEl("orderan-umkm-btn");
 
     getEl("orderan-tanggal").textContent =
         getEl("orderan-tanggal").textContent =
@@ -386,9 +430,19 @@ function showPopupOrderan(id = null){
             });
 
     getEl("orderan-faktur").textContent = generateFaktur();
+}
+
+// ========================================
+// POPUP
+// ========================================
+
+function showPopupOrderan(id = null){
+    bersihOrderan();
+
+    const popup = getEl("popup-orderan");
+    const btnUmkm = getEl("orderan-umkm-btn");
 
     if(id === null){
-        bersihOrderan();
         isEditModeOrderan = false;
 
         btnUmkm.disabled = false;
