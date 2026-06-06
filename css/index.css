@@ -61,7 +61,7 @@ small {
     font-size: 0.75rem;
 }
 
-input, button, select {
+input, text, button, select {
     font-family: var(--jenis-font), serif;
     color: var(--color-dark);
 }

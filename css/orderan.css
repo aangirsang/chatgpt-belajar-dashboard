@@ -34,8 +34,8 @@
     border-radius: 12px;
     background: var(--color-background);
 
-    width: 60rem;
-    height: 59rem;
+    width: 70rem;
+    height: 60rem;
 }
 .form-orderan-grid {
     display: flex;
@@ -54,7 +54,6 @@
     height: 16rem;
 }
 .form-orderan-1,
-.form-orderan-2,
 .orderan-table-container-stiker {
     display: flex;
     flex-direction: column;
@@ -88,13 +87,9 @@
     width: 100%;
 }
 .orderan-table-container-stiker {
-    height: 20rem;
+    height: 31rem;
 }
 
-.form-orderan-2 label {
-    text-align: center;
-    width: 100%;
-}
 .form-orderan-1-kanan{
     display: flex;
     gap: 1.6rem;
@@ -104,4 +99,8 @@
 .form-orderan-1-kanan-3{
     display: grid;
     gap: 1rem;
+}
+
+.orderan .popup-actions {
+    margin-top: 0;
 }

@@ -2,7 +2,7 @@ let callBackPilihStiker = null;
 let currentPagePopupStiker = 1;
 const rowsPerPagePopupStiker = 11;
 let sortPopupStiker = "namaPemilik";
-let selectedPopupStiker = null;
+let selectedPopupStiker = [];
 let selectedPopupStikerUmkm = null;
 let cariKeywordPopupStiker = "";
 let sortDirectionPopupStiker = "asc";
@@ -11,14 +11,13 @@ function initPopupStiker() {
     initCariPopupPilihStiker();
     loadTablePopupStiker();
 
-    document
-        .getElementById("batal-pilih-stiker-btn-popup")
-        ?.addEventListener("click", () => {
-
-            console.log("klik batal");
-
+    document.addEventListener("click", e => {
+        if(e.target.id === "batal-pilih-stiker-btn-popup"){
             tutupPopupPilihStiker();
-        });
+        }
+    });
+
+    getEl("")
 }
 
 async function loadPopupStiker() {
@@ -42,7 +41,7 @@ async function loadPopupStiker() {
     initPopupStiker();
 }
 
-function showPopupPilihStiker(onSelect, selectedUmkm, selectedStiker = null) {
+function showPopupPilihStiker(onSelect, selectedUmkm, selectedStiker = []) {
 
     callBackPilihStiker = onSelect;
 
@@ -52,28 +51,11 @@ function showPopupPilihStiker(onSelect, selectedUmkm, selectedStiker = null) {
 
     // reset pencarian
     cariKeywordPopupStiker = "";
-    getEl("cari-popup-stiker").value = "";
 
-    if(selectedPopupStiker === null){
+    const input = getEl("cari-popup-stiker");
 
-        // buka dari halaman pertama
-        currentPagePopupStiker = 1;
-
-    } else {
-
-        const filtered = filterDataPopupStiker();
-        const sorted = sortedDataPopupStiker(filtered);
-
-        const index = sorted.findIndex(
-            item => item.id === selectedPopupStiker.id
-        );
-
-        if(index >= 0){
-            currentPagePopupStiker =
-                Math.floor(index / rowsPerPagePopupStiker) + 1;
-        } else {
-            currentPagePopupStiker = 1;
-        }
+    if (input) {
+        input.value = "";
     }
 
     loadTablePopupStiker();
@@ -101,10 +83,8 @@ function tutupPopupPilihStiker() {
 function loadTablePopupStiker(){
     const filtered = filterDataPopupStiker();
     const sorted = sortedDataPopupStiker(filtered);
-    const paginated = getPaginatedData(sorted, currentPagePopupStiker, rowsPerPagePopupStiker)
 
-    renderTabelPopupStiker(paginated);
-    loadPagination("pagination-popup-stiker", filtered.length, currentPagePopupStiker, rowsPerPagePopupStiker, changePagePopupStiker)
+    renderTabelPopupStiker(sorted);
 }
 function filterDataPopupStiker(){
 
@@ -138,56 +118,129 @@ function sortedDataPopupStiker(data){
     });
 }
 function renderTabelPopupStiker(data){
+    const container =
+        getEl("popup-stiker-list");
 
-    const tbody = getEl("popup-stiker-tbody");
-
-    tbody.innerHTML = data.map(item =>
-        createRowPopupStiker(item)
+    container.innerHTML = data.map(item =>
+        createCardPopupStiker(item)
     ).join("");
 
-    const selectedRow =
-        tbody.querySelector(".selected-row");
-
-    selectedRow?.scrollIntoView({
-        block: "center"
-    });
+    initTooltipStiker();
 }
-function createRowPopupStiker(item){
+function initTooltipStiker(){
+
+    const tooltip =
+        document.getElementById("tooltip-stiker");
+
+    document
+        .querySelectorAll(".item-card")
+        .forEach(card => {
+
+            card.addEventListener("mouseenter", () => {
+
+                tooltip.textContent =
+                    card.dataset.tooltip;
+
+                tooltip.classList.add("show");
+            });
+
+            card.addEventListener("mousemove", e => {
+
+                tooltip.style.left =
+                    (e.clientX + 15) + "px";
+
+                tooltip.style.top =
+                    (e.clientY + 15) + "px";
+            });
+
+            card.addEventListener("mouseleave", () => {
+
+                tooltip.classList.remove("show");
+            });
+        });
+}
+function createCardPopupStiker(item){
+
+    const isSelected =
+        selectedPopupStiker.some(
+            stiker => stiker.id === item.id
+        );
+
     return `
-        <tr class="${selectedPopupStiker?.id === item.id ? "selected-row" : ""}"
-            ondblclick="pilihPopupStiker(${item.id})">
-            <td>${item.kodeStiker}</td>
-            <td>${item.namaStiker}</td>
-            <td>${item.panjang} x ${item.lebar}</td>
-        </tr>
+        <div
+            class="item-card ${isSelected ? "selected" : ""}" 
+            data-tooltip="${item.namaStiker} (${item.panjang} x ${item.lebar} cm)"
+            onclick="toggleSelectPopupStiker(${item.id})">
+
+            <div class="stiker-image">
+                <img
+                    src="${item.gambar1}"
+                    alt="${item.namaStiker}">
+            </div>
+
+            <div class="stiker-info">
+                <div class="stiker-nama">
+                    ${item.namaStiker}
+                </div>
+
+                <div class="stiker-ukuran">
+                    ${item.panjang} x ${item.lebar} cm
+                </div>
+            </div>
+            <div class="btn-card">
+                <button
+                    type="button"
+                    onclick="event.stopPropagation(); 
+                    lihatStiker(${item.id})">
+                    Lihat Stiker
+                </button>
+            </div>
+        </div>
     `;
 }
-function changePagePopupStiker(page){
-    const totalPages = Math.ceil(filterDataPopupStiker().length / rowsPerPagePopupStiker);
+function pilihPopupStiker(){
 
-    if(page < 1 || page > totalPages) return;
-
-    currentPagePopupStiker = page;
-
-    loadTablePopupStiker();
-}
-function pilihPopupStiker(id){
-    const stiker = getStiker(id);
-    if(!stiker) return;
-
-    selectedPopupStiker = stiker;
-
-    /*
-    isiDataUmkm(umkm);
-
-    if(!isEditModeStiker){
-        getEl("stiker-kode").value = generateKodeStiker(umkm);
+    if(selectedPopupStiker.length === 0){
+        alert("Pilih minimal satu stiker");
+        return;
     }
 
-     */
-    if(callBackPilihStiker) {
+    if(callBackPilihStiker){
         callBackPilihStiker(selectedPopupStiker);
     }
 
     tutupPopupPilihStiker();
+}
+function toggleSelectPopupStiker(id){
+
+    const index = selectedPopupStiker.findIndex(
+        item => item.id === id
+    );
+
+    if(index >= 0){
+
+        // unselect
+        selectedPopupStiker.splice(index, 1);
+
+    } else {
+
+        const stiker = getStiker(id);
+
+        if(stiker){
+            selectedPopupStiker.push(stiker);
+        }
+    }
+
+    loadTablePopupStiker();
+}
+
+async function lihatStiker(id) {
+
+    await loadPopupLihatStiker();
+
+    const stiker = getStiker(id);
+
+    if (!stiker) return;
+
+    showPopupLihatStiker(stiker);
 }

@@ -67,7 +67,7 @@ function setPreviewGambar(index, path){
         img.src = path;
         img.dataset.path = path;
     } else {
-        img.src = noImage;
+        img.src = noImageStiker;
         img.dataset.path = "";
     }
 }
@@ -704,6 +704,9 @@ function simpanStiker(e){
         gambar2: document.getElementById("preview-gambar-2").dataset.path || ""
     };
 
+    console.log(dataBaru.gambar1)
+    console.log(dataBaru.gambar2)
+
     if(isEditModeStiker){
         const index = dataStiker.findIndex(item => item.id === selectedStiker.id);
 
@@ -748,7 +751,7 @@ document.addEventListener("click", e => {
 // DEFAULT IMAGE
 // ========================================
 
-const noImage = `data:image/svg+xml;utf8,
+const noImageStiker = `data:image/svg+xml;utf8,
 <svg xmlns='http://www.w3.org/2000/svg' width='250' height='160' viewBox='0 0 250 160'>
     <rect width='250' height='160' fill='%23f3f4f6'/>
     <rect x='70' y='45' width='110' height='70' rx='8' fill='%23d1d5db'/>
@@ -759,8 +762,8 @@ const noImage = `data:image/svg+xml;utf8,
 
 function setDefaultPreviewImage(){
     document.querySelectorAll(".preview-img").forEach(img => {
-        img.src = img.getAttribute("src") || noImage;
-        img.onerror = () => img.src = noImage;
+        img.src = img.getAttribute("src") || noImageStiker;
+        img.onerror = () => img.src = noImageStiker;
     });
 }
 
@@ -866,7 +869,7 @@ function hapusGambar(index){
         `preview-gambar-${index}`
     );
 
-    img.src = noImage;
+    img.src = noImageStiker;
     img.dataset.path = "";
 }
 
@@ -875,7 +878,7 @@ function lihatGambar(index){
         `preview-gambar-${index}`
     );
 
-    if(!img.src || img.src === noImage) return;
+    if(!img.src || img.src === noImageStiker) return;
 
     document.getElementById("img-fullscreen").src = img.src;
 

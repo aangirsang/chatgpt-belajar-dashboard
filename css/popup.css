@@ -1,5 +1,4 @@
-.popup-content-pilih-umkm,
-.popup-content-pilih-stiker{
+.popup-content-pilih-umkm {
     padding: var(--card-padding);
     border-radius: 12px;
     background: var(--color-background);
@@ -8,7 +7,96 @@
     height: 52rem;
 }
 
-.table-container-popup-umkm,
+.popup-content-pilih-stiker {
+    padding: var(--card-padding);
+    border-radius: 12px;
+    background: var(--color-background);
+
+    width: 90rem;
+    height: 56rem;
+}
+
+.popup-content-lihat-stiker {
+    padding: var(--card-padding);
+    border-radius: 12px;
+    background: var(--color-background);
+
+    width: 60rem;
+    height: 45rem;
+}
+
+.popup-lihat-stiker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+
+    height: 37rem;
+
+    background: var(--color-white) ;
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+
+    transition: all 300ms ease;
+
+}
+
+.popup-lihat-stiker-data,
+.popup-lihat-stiker-gambar {
+    display: flex;
+    flex-direction: column;
+
+
+    gap: 1rem;
+    margin-top: 1rem;
+
+    height: 37rem;
+}
+
+.popup-lihat-stiker-data-content {
+    display: grid;
+    grid-template-columns: 1.5fr .1fr 4fr;
+    gap: .75rem 1rem;
+    align-items: start;
+}
+
+.popup-content-lihat-stiker .desain-item {
+    height: 16rem;
+}
+
+.lihat-stiker-desain-item-1,
+.lihat-stiker-desain-item-2 {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.lihat-stiker-desain-item-1 {
+    height: 16rem;
+}
+.lihat-stiker-desain-item-2 {
+    height: 30rem;
+}
+
+.lihat-stiker-desain-item-1,
+.lihat-stiker-desain-item-2 img{
+    width: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.table-container-popup-umkm {
+    height: 65vh;
+    background: var(--color-white) ;
+    padding: var(--card-padding);
+    padding-bottom: 1rem;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
+
 .table-container-popup-stiker {
     height: 65vh;
     background: var(--color-white) ;
@@ -22,4 +110,208 @@
 .tabel-card-cari-umkm,
 .tabel-card-cari-stiker {
     height: 55vh;
+}
+
+
+/* LIST PRODUK */
+.orderan-stiker-list,
+.popup-stiker-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+
+    height: 38rem;
+    overflow-y: auto;
+
+    padding: .5rem;
+    margin-bottom: .5rem;
+}
+
+.item-card{
+    border: 1px solid var(--color-light);
+    border-radius: 10px;
+    background: var(--color-white);
+
+    cursor: pointer;
+    transition: .2s;
+
+    overflow: hidden;
+
+    position: relative;
+
+    /* Tambahan */
+    height: 24rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderan .item-card{
+    height: 29rem;
+}
+
+.item-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+.item-card.selected{
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0,123,255,.15);
+}
+
+.item-card.selected::before{
+    content: "✓";
+
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: var(--color-primary);
+    color: white;
+    font-weight: bold;
+}
+
+.stiker-info{
+    padding: .8rem;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.stiker-kode{
+    font-size: .75rem;
+    color: gray;
+}
+
+.stiker-nama{
+    font-weight: 600;
+    margin-top: .3rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.stiker-ukuran{
+    margin-top: .5rem;
+    font-size: .85rem;
+    color: #666;
+}
+
+.btn-pilih-stiker{
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.stiker-image{
+    width: 100%;
+    min-height: 180px;
+    max-height: 180px;
+    height: 180px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+    background: #f5f5f5;
+
+    flex-shrink: 0;
+}
+
+.stiker-image img{
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+}
+
+
+
+.tooltip-stiker{
+    position: fixed;
+
+    background: #1f2937;
+    color: white;
+
+    padding: .75rem 1rem;
+    border-radius: 12px;
+
+    font-size: .8rem;
+    white-space: nowrap;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+
+    pointer-events: none;
+    z-index: 99999;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity .15s;
+}
+
+.tooltip-stiker.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.jumlah-cetak-group,
+.btn-card {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: .8rem;
+    margin-top: .75rem;
+}
+
+.input-jumlah-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-jumlah-wrapper input{
+    width: 100%;
+    height: 40px;
+
+    padding-left: 12px;
+    padding-right: 70px; /* ruang untuk tulisan Lembar */
+
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.input-jumlah-wrapper input::placeholder{
+    color: #999;
+}
+
+.input-satuan-lembar{
+    position: absolute;
+
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #666;
+    font-size: .9rem;
+
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.jumlah-cetak-group button{
+    width: 100%;
 }

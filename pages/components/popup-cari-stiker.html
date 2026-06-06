@@ -16,20 +16,15 @@
 
             <!-- TABLE -->
             <div class="table-container-popup-stiker">
-                <div class="tabel-card-cari-stiker">
-                    <table class="cari-stiker-tbl">
-                        <thead>
-                        <tr>
-                            <th onclick="sortTablePopupStiker('tbl-kode-stiker')">Kode Stiker</th>
-                            <th onclick="sortTablePopupStiker('tbl-nama-stiker')">Nama Stiker</th>
-                            <th onclick="sortTablePopupStiker('tbl-ukuran')">Ukuran</th>
-                        </tr>
-                        </thead>
-                        <tbody id="popup-stiker-tbody"></tbody>
-                    </table>
-                </div>
-                <div id="pagination-popup-stiker" class="pagination"></div>
+                <div id="popup-stiker-list" class="popup-stiker-list"></div>
+
             </div>
+
+            <button type="button" class="btn-pilih-stiker" id="btn-pilih-stiker" onclick="pilihPopupStiker()">
+                Pilih
+            </button>
+
         </form>
     </div>
+    <div id="tooltip-stiker" class="tooltip-stiker"></div>
 </div>

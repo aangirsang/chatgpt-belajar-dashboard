@@ -527,11 +527,29 @@ let dataUMKM = [
     }
 ];
 let dataStiker = [
-    { id: 1, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 1, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Tumpeng 01 Perumahaan Green City Gelembis Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
     { id: 2, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 100, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 200, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 110, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 210, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 120, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 220, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 130, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 230, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Tumpeng 01 Perumahaan Green City Gelembis Bulat 3x3", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 91, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Tumpeng 01 Perumahaan Green City Gelembis Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 92, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 9100, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 9200, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 9110, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 9210, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 9120, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 9220, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Kotak 5x5", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
+    { id: 9130, umkmId: 1, kodeStiker: "Tumpeng 01 01", namaStiker: "Bulat 3x3", panjang: 3, lebar: 3, catatan: "Pisah bawah kiri kanan diujung kiri lingkaran", gambar1: "", gambar2: "", status: true },
+    { id: 9230, umkmId: 1, kodeStiker: "Tumpeng 01 02", namaStiker: "Tumpeng 01 Perumahaan Green City Gelembis Bulat 3x3", panjang: 5, lebar: 5, catatan: "Laminasi glossy", gambar1: "", gambar2: "", status: true },
 
-    { id: 3, umkmId: 2, kodeStiker: "Turunan Cabe 01", namaStiker: "Oval 4x2", panjang: 4, lebar: 2, catatan: "Potong rapat", gambar1: "", gambar2: "", status: true },
-    { id: 4, umkmId: 2, kodeStiker: "Turunan Cabe 02", namaStiker: "Bulat 2x2", panjang: 2, lebar: 2, catatan: "Untuk cup kecil", gambar1: "", gambar2: "", status: false },
+    { id: 3, umkmId: 2, kodeStiker: "Turunan Cabe 01", namaStiker: "Cemilan 4x4", panjang: 4, lebar: 4, catatan: "Potong rapat", gambar1: "", gambar2: "", status: true },
+    { id: 4, umkmId: 2, kodeStiker: "Turunan Cabe 02", namaStiker: "Cabai Bubuk 55 Gram", panjang: 2, lebar: 2, catatan: "Untuk cup kecil", gambar1: "", gambar2: "", status: true },
 
     { id: 5, umkmId: 3, kodeStiker: "Kopi Senja 01", namaStiker: "Persegi Panjang 8x4", panjang: 8, lebar: 4, catatan: "Background hitam", gambar1: "", gambar2: "", status: true },
     { id: 6, umkmId: 3, kodeStiker: "Kopi Senja 02", namaStiker: "Bulat 5x5", panjang: 5, lebar: 5, catatan: "Logo tengah", gambar1: "", gambar2: "", status: true },

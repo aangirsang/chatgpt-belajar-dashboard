@@ -7,7 +7,7 @@ let sortDirectionOrderan = "asc";
 
 let selectedOrderan = null;
 let selectedOrderanUmkm = null;
-let selectedOrderanStiker = null;
+let selectedOrderanStiker = [];
 let searchKeywordOrderan = "";
 let isEditModeOrderan = false;
 
@@ -78,11 +78,16 @@ async function initOrderan(){
 
             await loadPopupStiker();
 
-            showPopupPilihStiker((stiker) => {
+            showPopupPilihStiker(
+                (stikerTerpilih) => {
 
-                selectedOrderanStiker = stiker;
-            },
-                selectedOrderanUmkm
+                    selectedOrderanStiker =
+                        [...stikerTerpilih];
+
+                    renderOrderanStikerList();
+                },
+                selectedOrderanUmkm,
+                selectedOrderanStiker
             );
         });
 }
@@ -408,9 +413,13 @@ function tampilBtnStiker(status) {
 function bersihOrderan(){
     selectedOrderan = null;
     selectedOrderanUmkm = null;
-    selectedOrderanStiker = null;
+    selectedOrderanStiker = [];
+
+    renderOrderanStikerList();
 
     tampilBtnStiker(true);
+
+
 
     [
         "orderan-nama-usaha",
@@ -455,7 +464,7 @@ function showPopupOrderan(id = null){
     btnUmkm.disabled = true;
     btnUmkm.classList.add("btn-disabled");
 
-    return;
+    //return;
 }
 
 function tutupPopupOrderan(id){
@@ -494,4 +503,95 @@ function generateFaktur() {
     const nomorFormat = String(nomorBaru).padStart(4, "0");
 
     return `RBBB-${tahun}${nomorFormat}`;
+}
+
+function renderOrderanStikerList(){
+
+    const container =
+        getEl("orderan-stiker-list");
+
+    if(!selectedOrderanStiker ||
+        selectedOrderanStiker.length === 0){
+
+        container.innerHTML = `
+            <div class="empty-data">
+                Belum ada stiker dipilih
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        selectedOrderanStiker.map(stiker => `
+        <div class="item-card">
+
+            <div class="stiker-image">
+                <img
+                    src="${stiker.gambar1}"
+                    alt="${stiker.namaStiker}">
+            </div>
+
+            <div class="stiker-info">
+                <div class="stiker-nama">
+                    ${stiker.namaStiker}
+                </div>
+
+                <div class="stiker-ukuran">
+                    ${stiker.panjang} x ${stiker.lebar} cm
+                </div>
+            </div>
+
+            <div class="jumlah-cetak-group">
+
+                <label>Jumlah Cetak</label>
+            
+                <div class="input-jumlah-wrapper">
+                    <input
+                        type="text"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        oninput="
+                            this.value=this.value.replace(/[^0-9]/g,'');
+                            updateJumlahCetak(${stiker.id}, this.value);
+                        "
+                        placeholder="Masukkan jumlah cetak">
+            
+                    <span class="input-satuan-lembar">Lembar</span>
+                </div>
+            
+                <button
+                    type="button"
+                    onclick="hapusStikerOrderan(${stiker.id})">
+                    Hapus
+                </button>
+            
+            </div>
+
+
+        </div>
+    `).join("");
+}
+
+function hapusStikerOrderan(id){
+
+    selectedOrderanStiker =
+        selectedOrderanStiker.filter(
+            item => item.id !== id
+        );
+
+    renderOrderanStikerList();
+}
+function updateJumlahCetak(id, value){
+
+    const stiker = selectedOrderanStiker.find(
+        item => item.id === id
+    );
+
+    if(stiker){
+        stiker.jumlahCetak =
+            value === ""
+                ? 0
+                : parseInt(value);
+    }
 }
