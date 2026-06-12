@@ -2,6 +2,8 @@
 let selectedPopupLihatStiker = null;
 
 function initPopupLihatStiker() {
+    setDefaultPreviewImage();
+
     document.addEventListener("click", e => {
         if(e.target.id === "tutup-popup-lihat-stiker"){
             tutupPopupLihatStiker();

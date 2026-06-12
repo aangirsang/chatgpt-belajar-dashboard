@@ -781,11 +781,11 @@ function pilihGambar(index){
         .click();
 }
 
-function handleUploadGambarStiker(e){
+function handleUploadGambarStiker(e) {
 
     const file = e.target.files[0];
 
-    if(!file) return;
+    if (!file) return;
 
     const container = getEl(
         `preview-container-${selectedGambarIndex}`
@@ -801,11 +801,11 @@ function handleUploadGambarStiker(e){
     // tampil loading
     container.classList.add("loading");
 
-    compressImage(file, function(base64){
+    compressImage(file, function(base64) {
 
         const tempImg = new Image();
 
-        tempImg.onload = function(){
+        tempImg.onload = function() {
 
             img.src = base64;
             img.dataset.path = base64;
@@ -820,15 +820,16 @@ function handleUploadGambarStiker(e){
 
     e.target.value = "";
 }
-function compressImage(file, callback){
+
+function compressImage(file, callback) {
 
     const reader = new FileReader();
 
-    reader.onload = function(e){
+    reader.onload = function(e) {
 
         const img = new Image();
 
-        img.onload = function(){
+        img.onload = function() {
 
             const canvas = document.createElement("canvas");
 
@@ -837,7 +838,7 @@ function compressImage(file, callback){
             let width = img.width;
             let height = img.height;
 
-            if(width > maxWidth){
+            if (width > maxWidth) {
 
                 height *= maxWidth / width;
                 width = maxWidth;
@@ -848,14 +849,21 @@ function compressImage(file, callback){
 
             const ctx = canvas.getContext("2d");
 
-            ctx.drawImage(img, 0, 0, width, height);
-
-            callback(
-                canvas.toDataURL(
-                    "image/jpeg",
-                    0.72
-                )
+            ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
             );
+
+            // WebP mendukung transparansi
+            const compressedImage = canvas.toDataURL(
+                "image/webp",
+                0.72
+            );
+
+            callback(compressedImage);
         };
 
         img.src = e.target.result;

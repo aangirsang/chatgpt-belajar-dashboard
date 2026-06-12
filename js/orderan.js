@@ -1,6 +1,6 @@
 let currentPageOrderan = 1;
 let openedDetailOrderan = null;
-const rowsPerPageOrderan = 5;
+const rowsPerPageOrderan = 15;
 
 let sortOrderan = "faktur";
 let sortDirectionOrderan = "asc";
@@ -69,6 +69,8 @@ async function initOrderan(){
                     umkm.noTelp;
 
                 tampilBtnStiker(false);
+
+
             },
                 selectedOrderanUmkm
             );
@@ -323,7 +325,7 @@ function createRowsOrderan(item, umkm, opened){
             <tr>
                 <td>${stiker?.namaStiker ?? "-"}</td>
                 <td>${stiker?.panjang ?? 0} x ${stiker?.lebar ?? 0}</td>
-                <td>${rinci.jumlah} Lembar</td>
+                <td>${rinci.jumlahCetak} Lembar</td>
             </tr>
         `;
     });
@@ -336,7 +338,7 @@ function createRowsOrderan(item, umkm, opened){
             <td>${item.totalStiker} Lembar</td>
             <td>
                <div class="actions">
-                    <button onclick="event.stopPropagation(); showPopupStiker('${item.id}')">
+                    <button onclick="event.stopPropagation(); showPopupDataOrderan('${item.id}', '${item.id}')">
                         <span class="material-symbols-sharp">edit</span>
                     </button>
                     <button onclick="event.stopPropagation(); showPopupHapusStiker('${item.id}')">
@@ -445,8 +447,14 @@ function bersihOrderan(){
 // POPUP
 // ========================================
 
-function showPopupOrderan(id = null){
-    bersihOrderan();
+async function showPopupOrderan(id = null){
+    await loadPopupDataOrder();
+    showPopupDataOrder((order) => {
+        selectedOrderan = order;
+    });
+    loadTableOrderan();
+
+    /*bersihOrderan();
 
     const popup = getEl("popup-orderan");
     const btnUmkm = getEl("orderan-umkm-btn");
@@ -465,6 +473,9 @@ function showPopupOrderan(id = null){
     btnUmkm.classList.add("btn-disabled");
 
     //return;
+
+     */
+
 }
 
 function tutupPopupOrderan(id){
@@ -473,37 +484,7 @@ function tutupPopupOrderan(id){
     getEl(id).classList.remove("show");
     getEl(id).classList.remove("active");
 }
-function generateFaktur() {
 
-    const tahun = new Date().getFullYear().toString().slice(-2);
-
-    // Ambil semua faktur tahun ini
-    const orderanTahunIni = dataOrderan.filter(item => {
-        return item.faktur.startsWith(`RBBB-${tahun}`);
-    });
-
-    // Cari nomor terbesar
-    let nomorTerbesar = 0;
-
-    orderanTahunIni.forEach(item => {
-
-        const nomor = parseInt(
-            item.faktur.split("-")[1].slice(2)
-        );
-
-        if(nomor > nomorTerbesar){
-            nomorTerbesar = nomor;
-        }
-    });
-
-    // Nomor berikutnya
-    const nomorBaru = nomorTerbesar + 1;
-
-    // Format 0001
-    const nomorFormat = String(nomorBaru).padStart(4, "0");
-
-    return `RBBB-${tahun}${nomorFormat}`;
-}
 
 function renderOrderanStikerList(){
 
@@ -524,11 +505,12 @@ function renderOrderanStikerList(){
 
     container.innerHTML =
         selectedOrderanStiker.map(stiker => `
-        <div class="item-card">
+        <div class="item-card"
+        onclick="lihatStiker(${stiker.id})">
 
             <div class="stiker-image">
                 <img
-                    src="${stiker.gambar1}"
+                    src="${stiker.gambar1 || noImageStiker}"
                     alt="${stiker.namaStiker}">
             </div>
 
@@ -551,6 +533,7 @@ function renderOrderanStikerList(){
                         type="text"
                         inputmode="numeric"
                         pattern="[0-9]*"
+                        onclick="event.stopPropagation()"
                         oninput="
                             this.value=this.value.replace(/[^0-9]/g,'');
                             updateJumlahCetak(${stiker.id}, this.value);
@@ -562,10 +545,13 @@ function renderOrderanStikerList(){
             
                 <button
                     type="button"
-                    onclick="hapusStikerOrderan(${stiker.id})">
+                    onclick="
+                    event.stopPropagation();
+                    hapusStikerOrderan(${stiker.id})
+                    ">
                     Hapus
                 </button>
-            
+                            
             </div>
 
 

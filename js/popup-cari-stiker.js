@@ -174,7 +174,7 @@ function createCardPopupStiker(item){
 
             <div class="stiker-image">
                 <img
-                    src="${item.gambar1}"
+                    src="${item.gambar1 || noImageStiker}"
                     alt="${item.namaStiker}">
             </div>
 

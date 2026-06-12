@@ -660,7 +660,7 @@ for (let i = 1; i <= 50; i++) {
             id: rincianId++,
             dataOrderanId: i,
             dataStikerId: ((i + j - 1) % 30) + 1,
-            jumlah: (j * 5)
+            jumlahCetak: (j * 5)
         });
     }
 }
